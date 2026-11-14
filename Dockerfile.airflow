@@ -1,6 +1,8 @@
 FROM apache/airflow:3.3.1-python3.12
 USER root
-RUN apt-get update && apt-get install -y --no-install-recommends git && rm -rf /var/lib/apt/lists/* \
+RUN sed -i 's|http://deb.debian.org|https://deb.debian.org|g' /etc/apt/sources.list.d/debian.sources \
+    && apt-get -o Acquire::Retries=3 update \
+    && apt-get install -y --no-install-recommends git && rm -rf /var/lib/apt/lists/* \
     && git config --system --add safe.directory /workspace
 USER airflow
 RUN pip install --no-cache-dir "apache-airflow==3.3.1" "mlflow==3.6.0" \

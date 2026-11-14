@@ -14,10 +14,14 @@ SYSTEM = (
 )
 
 
+class PlannerUnavailable(RuntimeError):
+    """Safe message that contains neither response payloads nor credentials."""
+
+
 def gemini_plan(prompt: str, schemas: list[dict]) -> list[tuple[str, dict]]:
     key = os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY")
     if not key:
-        raise RuntimeError("Gemini API key is not configured in .env")
+        raise PlannerUnavailable("Gemini API key is not configured in .env")
     model = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
     declarations = [
         {
@@ -38,7 +42,18 @@ def gemini_plan(prompt: str, schemas: list[dict]) -> list[tuple[str, dict]]:
         },
         timeout=45,
     )
-    response.raise_for_status()
+    try:
+        response.raise_for_status()
+    except requests.HTTPError as exc:
+        messages = {
+            403: "Gemini project access denied (403). Check project eligibility in AI Studio.",
+            429: "Gemini quota/rate limit reached (429). Retry later or check project quota.",
+            404: "Gemini model not available (404). Check GEMINI_MODEL.",
+            400: "Gemini request rejected (400). Check API key and tool-schema compatibility.",
+        }
+        raise PlannerUnavailable(
+            messages.get(response.status_code, "Gemini request failed; no tools executed.")
+        ) from exc
     parts = response.json().get("candidates", [{}])[0].get("content", {}).get("parts", [])
     calls = [part["functionCall"] for part in parts if "functionCall" in part]
     return [(call["name"], call.get("args", {})) for call in calls]

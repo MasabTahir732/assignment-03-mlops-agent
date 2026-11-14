@@ -12,7 +12,7 @@ import requests
 from pydantic import ValidationError
 
 from agent import schemas as s
-from agent.planners import gemini_plan
+from agent.planners import PlannerUnavailable, gemini_plan
 from agent.tools import airflow_tools as af
 from agent.tools import dvc_tools as dvc
 from agent.tools import kubernetes_tools as kube
@@ -287,7 +287,9 @@ def ask(prompt: str, mode: str = "rules", confirmed: bool = False) -> s.AgentRes
         plan = llm_plan(prompt) if mode == "llm" else rule_plan(prompt)
     except Exception as exc:
         message = (
-            str(exc) if isinstance(exc, ValueError) else "Planner unavailable or request rejected"
+            str(exc)
+            if isinstance(exc, (ValueError, PlannerUnavailable))
+            else "Planner unavailable or request rejected"
         )
         return s.AgentResponse(
             request_id=request_id,

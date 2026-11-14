@@ -4,7 +4,7 @@
 
 ```mermaid
 flowchart TD
-    U[CLI natural-language request] --> P[Ollama tool-calling planner or rules router]
+    U[CLI natural-language request] --> P[Gemini or Ollama tool-calling planner / rules router]
     P --> V[Pydantic inputs and allowlisted executor]
     V --> D[DVC CLI and Git provenance]
     V --> M[MLflow Python client]
@@ -22,7 +22,7 @@ flowchart TD
 ```
 
 The conversational interface runs locally rather than exposing administrative
-operations on the public inference API. In AI mode, Ollama returns structured tool
+operations on the public inference API. In AI mode, Gemini or Ollama returns structured tool
 calls. The executor validates inputs, checks trusted CLI confirmation, calls only
 registered functions, and wraps results with status, request ID and duration.
 The response renderer makes operational claims only from successful tool output.
@@ -104,7 +104,8 @@ GitHub Actions runs lint and tests on pull requests; no live credentials are nee
 
 - A local single-host demonstration is not a highly available production control plane.
 - Airflow runs in Linux containers; it is not installed natively on Windows.
-- Rules mode supports demonstration phrases; LLM mode needs Ollama and a tool-capable model.
+- Rules mode supports demonstration phrases; LLM mode needs an eligible Gemini project/key
+  or Ollama with a tool-capable model. Provider quota/eligibility failures remain explicit unknowns.
 - Experiments are reproducible with top-level pinned dependencies and fixed seeds;
   transitive dependencies are resolved at installation, not a fully hashed lock file.
 - Recent-run selection is limited to `iris-demo`; explicit run comparisons can span experiments.

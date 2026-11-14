@@ -162,10 +162,15 @@ python -m agent.main 'Restart the prediction deployment' --confirm
 
 ## 5. Conversational multi-tool agent
 
-Default `--mode rules` selects tools for the documented demonstration phrases
+For Gemini, follow the beginner [GEMINI_SETUP.md](GEMINI_SETUP.md) guide. Add your
+key only to `.env`, then use `python -m agent.main 'Which datasets are tracked?'
+--mode llm --provider gemini`. Gemini is optional; no specific LLM vendor is required.
+The CLI automatically uses LLM mode when a Gemini key is configured.
+
+Explicit `--mode rules` selects tools for the documented demonstration phrases
 without downloading a language model. Its limits are explicit: it is a deterministic
 router, not an LLM. For the **AI agent demonstration**, install Ollama separately,
-then use its tool-calling API with a local model:
+then use its tool-calling API with a local model (add `--provider ollama`):
 
 ```powershell
 ollama pull qwen3:4b
@@ -240,6 +245,13 @@ CI runs Ruff and pytest on pushes/pull requests with external services mocked.
 Tests cover tool selection/execution, multi-tool reasoning, failures/timeouts,
 invalid requests, secret-safe logs, denied mutations, data validation, promotion
 blocking and real inference against a trained model.
+
+A separate manual **Live infrastructure demonstration** GitHub Actions workflow
+creates a real Docker/Kind environment, executes the five-stage Airflow DAG, injects
+and recovers from both failures, deploys two API replicas and exports actual service
+evidence as the `actual-mlops-evidence` artifact. Its rules-mode conversation capture
+is distinct from the optional Gemini live-language demonstration. Ordinary CI stays
+mocked. Download the artifact and copy the reviewed JSON into `screenshots/live/`.
 
 When ready to submit, create an empty GitHub repository, then:
 
