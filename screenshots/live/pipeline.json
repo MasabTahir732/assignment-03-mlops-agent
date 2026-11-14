@@ -1,0 +1,370 @@
+{
+  "user": "Trigger the model training pipeline",
+  "submission": {
+    "request_id": "aec47ede50ca46549cd297fb8a8170a5",
+    "mode": "rules",
+    "facts": [
+      "airflow_trigger returned actual tool evidence (see evidence).",
+      "Training was submitted. Submission does not establish execution success."
+    ],
+    "uncertainties": [],
+    "recommendations": [
+      "Poll airflow_runs, then airflow_tasks/airflow_diagnose for the run ID."
+    ],
+    "evidence": [
+      {
+        "tool": "airflow_trigger",
+        "status": "ok",
+        "data": {
+          "dag_run_id": "agent__7cb03a97fc4b4314b3d948a89a33c492",
+          "dag_id": "iris_training",
+          "logical_date": "2026-11-14T11:51:16.930325Z",
+          "queued_at": "2026-11-14T11:51:17.225232Z",
+          "start_date": null,
+          "end_date": null,
+          "duration": null,
+          "data_interval_start": "2026-11-14T11:51:16.930325Z",
+          "data_interval_end": "2026-11-14T11:51:16.930325Z",
+          "run_after": "2026-11-14T11:51:16.938979Z",
+          "last_scheduling_decision": null,
+          "run_type": "manual",
+          "state": "queued",
+          "triggered_by": "rest_api",
+          "triggering_user_name": "admin",
+          "conf": {
+            "inject_failure": "none"
+          },
+          "note": null,
+          "dag_versions": [
+            {
+              "id": "01a1d9e5-bab0-7692-8600-cdde25a469d4",
+              "version_number": 1,
+              "dag_id": "iris_training",
+              "bundle_name": "dags-folder",
+              "bundle_version": null,
+              "created_at": "2026-11-14T11:51:13.840864Z",
+              "dag_display_name": "iris_training",
+              "bundle_url": null
+            }
+          ],
+          "bundle_version": null,
+          "dag_display_name": "iris_training",
+          "partition_key": null,
+          "partition_date": null
+        },
+        "error": null,
+        "request_id": "aec47ede50ca46549cd297fb8a8170a5",
+        "duration_ms": 330.89
+      }
+    ]
+  },
+  "completed_run": {
+    "dag_run_id": "agent__7cb03a97fc4b4314b3d948a89a33c492",
+    "dag_id": "iris_training",
+    "logical_date": "2026-11-14T11:51:16.930325Z",
+    "queued_at": "2026-11-14T11:51:17.225232Z",
+    "start_date": "2026-11-14T11:51:17.462812Z",
+    "end_date": "2026-11-14T11:51:37.530052Z",
+    "duration": 20.06724,
+    "data_interval_start": "2026-11-14T11:51:16.930325Z",
+    "data_interval_end": "2026-11-14T11:51:16.930325Z",
+    "run_after": "2026-11-14T11:51:16.938979Z",
+    "last_scheduling_decision": "2026-11-14T11:51:37.528077Z",
+    "run_type": "manual",
+    "state": "success",
+    "triggered_by": "rest_api",
+    "triggering_user_name": "admin",
+    "conf": {
+      "inject_failure": "none"
+    },
+    "note": null,
+    "dag_versions": [
+      {
+        "id": "01a1d9e5-bab0-7692-8600-cdde25a469d4",
+        "version_number": 1,
+        "dag_id": "iris_training",
+        "bundle_name": "dags-folder",
+        "bundle_version": null,
+        "created_at": "2026-11-14T11:51:13.840864Z",
+        "dag_display_name": "iris_training",
+        "bundle_url": null
+      }
+    ],
+    "bundle_version": null,
+    "dag_display_name": "iris_training",
+    "partition_key": null,
+    "partition_date": null
+  },
+  "tasks": {
+    "task_instances": [
+      {
+        "id": "01a1d9e5-c7fb-75e5-a9a1-6b4952923f47",
+        "task_id": "validate_data",
+        "dag_id": "iris_training",
+        "dag_run_id": "agent__7cb03a97fc4b4314b3d948a89a33c492",
+        "map_index": -1,
+        "logical_date": "2026-11-14T11:51:16.930325Z",
+        "run_after": "2026-11-14T11:51:16.938979Z",
+        "start_date": "2026-11-14T11:51:17.614848Z",
+        "end_date": "2026-11-14T11:51:23.301813Z",
+        "duration": 5.686965,
+        "state": "success",
+        "try_number": 1,
+        "max_tries": 1,
+        "task_display_name": "validate_data",
+        "dag_display_name": "iris_training",
+        "hostname": "c78766e30cc9",
+        "unixname": "airflow",
+        "pool": "default_pool",
+        "pool_slots": 1,
+        "queue": "default",
+        "priority_weight": 5,
+        "operator": "_PythonDecoratedOperator",
+        "operator_name": "@task",
+        "queued_when": "2026-11-14T11:51:17.504887Z",
+        "scheduled_when": "2026-11-14T11:51:17.491835Z",
+        "pid": 124,
+        "executor": null,
+        "executor_config": "{}",
+        "note": null,
+        "rendered_map_index": null,
+        "rendered_fields": {
+          "templates_dict": null,
+          "op_args": [],
+          "op_kwargs": {}
+        },
+        "trigger": null,
+        "triggerer_job": null,
+        "dag_version": {
+          "id": "01a1d9e5-bab0-7692-8600-cdde25a469d4",
+          "version_number": 1,
+          "dag_id": "iris_training",
+          "bundle_name": "dags-folder",
+          "bundle_version": null,
+          "created_at": "2026-11-14T11:51:13.840864Z",
+          "dag_display_name": "iris_training",
+          "bundle_url": null
+        }
+      },
+      {
+        "id": "01a1d9e5-c7fc-787b-b788-145dc5faa296",
+        "task_id": "preprocess_data",
+        "dag_id": "iris_training",
+        "dag_run_id": "agent__7cb03a97fc4b4314b3d948a89a33c492",
+        "map_index": -1,
+        "logical_date": "2026-11-14T11:51:16.930325Z",
+        "run_after": "2026-11-14T11:51:16.938979Z",
+        "start_date": "2026-11-14T11:51:24.210842Z",
+        "end_date": "2026-11-14T11:51:26.270899Z",
+        "duration": 2.060057,
+        "state": "success",
+        "try_number": 1,
+        "max_tries": 1,
+        "task_display_name": "preprocess_data",
+        "dag_display_name": "iris_training",
+        "hostname": "c78766e30cc9",
+        "unixname": "airflow",
+        "pool": "default_pool",
+        "pool_slots": 1,
+        "queue": "default",
+        "priority_weight": 4,
+        "operator": "_PythonDecoratedOperator",
+        "operator_name": "@task",
+        "queued_when": "2026-11-14T11:51:24.110768Z",
+        "scheduled_when": "2026-11-14T11:51:24.100306Z",
+        "pid": 135,
+        "executor": null,
+        "executor_config": "{}",
+        "note": null,
+        "rendered_map_index": null,
+        "rendered_fields": {
+          "templates_dict": null,
+          "op_args": [
+            {
+              "inject_failure": "none",
+              "work_dir": "/workspace/reports/7396e5f961473894"
+            }
+          ],
+          "op_kwargs": {}
+        },
+        "trigger": null,
+        "triggerer_job": null,
+        "dag_version": {
+          "id": "01a1d9e5-bab0-7692-8600-cdde25a469d4",
+          "version_number": 1,
+          "dag_id": "iris_training",
+          "bundle_name": "dags-folder",
+          "bundle_version": null,
+          "created_at": "2026-11-14T11:51:13.840864Z",
+          "dag_display_name": "iris_training",
+          "bundle_url": null
+        }
+      },
+      {
+        "id": "01a1d9e5-c7fd-7a5e-bff9-65c60d09581c",
+        "task_id": "train_model",
+        "dag_id": "iris_training",
+        "dag_run_id": "agent__7cb03a97fc4b4314b3d948a89a33c492",
+        "map_index": -1,
+        "logical_date": "2026-11-14T11:51:16.930325Z",
+        "run_after": "2026-11-14T11:51:16.938979Z",
+        "start_date": "2026-11-14T11:51:27.356802Z",
+        "end_date": "2026-11-14T11:51:29.426012Z",
+        "duration": 2.06921,
+        "state": "success",
+        "try_number": 1,
+        "max_tries": 1,
+        "task_display_name": "train_model",
+        "dag_display_name": "iris_training",
+        "hostname": "c78766e30cc9",
+        "unixname": "airflow",
+        "pool": "default_pool",
+        "pool_slots": 1,
+        "queue": "default",
+        "priority_weight": 3,
+        "operator": "_PythonDecoratedOperator",
+        "operator_name": "@task",
+        "queued_when": "2026-11-14T11:51:27.258041Z",
+        "scheduled_when": "2026-11-14T11:51:27.247243Z",
+        "pid": 144,
+        "executor": null,
+        "executor_config": "{}",
+        "note": null,
+        "rendered_map_index": null,
+        "rendered_fields": {
+          "templates_dict": null,
+          "op_args": [
+            {
+              "inject_failure": "none",
+              "work_dir": "/workspace/reports/7396e5f961473894"
+            }
+          ],
+          "op_kwargs": {}
+        },
+        "trigger": null,
+        "triggerer_job": null,
+        "dag_version": {
+          "id": "01a1d9e5-bab0-7692-8600-cdde25a469d4",
+          "version_number": 1,
+          "dag_id": "iris_training",
+          "bundle_name": "dags-folder",
+          "bundle_version": null,
+          "created_at": "2026-11-14T11:51:13.840864Z",
+          "dag_display_name": "iris_training",
+          "bundle_url": null
+        }
+      },
+      {
+        "id": "01a1d9e5-c7fe-755d-afa1-76189f3cc3c9",
+        "task_id": "evaluate_and_log",
+        "dag_id": "iris_training",
+        "dag_run_id": "agent__7cb03a97fc4b4314b3d948a89a33c492",
+        "map_index": -1,
+        "logical_date": "2026-11-14T11:51:16.930325Z",
+        "run_after": "2026-11-14T11:51:16.938979Z",
+        "start_date": "2026-11-14T11:51:30.318560Z",
+        "end_date": "2026-11-14T11:51:33.788530Z",
+        "duration": 3.46997,
+        "state": "success",
+        "try_number": 1,
+        "max_tries": 1,
+        "task_display_name": "evaluate_and_log",
+        "dag_display_name": "iris_training",
+        "hostname": "c78766e30cc9",
+        "unixname": "airflow",
+        "pool": "default_pool",
+        "pool_slots": 1,
+        "queue": "default",
+        "priority_weight": 2,
+        "operator": "_PythonDecoratedOperator",
+        "operator_name": "@task",
+        "queued_when": "2026-11-14T11:51:30.218009Z",
+        "scheduled_when": "2026-11-14T11:51:30.205631Z",
+        "pid": 153,
+        "executor": null,
+        "executor_config": "{}",
+        "note": null,
+        "rendered_map_index": null,
+        "rendered_fields": {
+          "templates_dict": null,
+          "op_args": [
+            {
+              "inject_failure": "none",
+              "work_dir": "/workspace/reports/7396e5f961473894"
+            }
+          ],
+          "op_kwargs": {}
+        },
+        "trigger": null,
+        "triggerer_job": null,
+        "dag_version": {
+          "id": "01a1d9e5-bab0-7692-8600-cdde25a469d4",
+          "version_number": 1,
+          "dag_id": "iris_training",
+          "bundle_name": "dags-folder",
+          "bundle_version": null,
+          "created_at": "2026-11-14T11:51:13.840864Z",
+          "dag_display_name": "iris_training",
+          "bundle_url": null
+        }
+      },
+      {
+        "id": "01a1d9e5-c7ff-7639-9556-8699ce9fea5f",
+        "task_id": "quality_gate",
+        "dag_id": "iris_training",
+        "dag_run_id": "agent__7cb03a97fc4b4314b3d948a89a33c492",
+        "map_index": -1,
+        "logical_date": "2026-11-14T11:51:16.930325Z",
+        "run_after": "2026-11-14T11:51:16.938979Z",
+        "start_date": "2026-11-14T11:51:34.502504Z",
+        "end_date": "2026-11-14T11:51:36.530685Z",
+        "duration": 2.028181,
+        "state": "success",
+        "try_number": 1,
+        "max_tries": 1,
+        "task_display_name": "quality_gate",
+        "dag_display_name": "iris_training",
+        "hostname": "c78766e30cc9",
+        "unixname": "airflow",
+        "pool": "default_pool",
+        "pool_slots": 1,
+        "queue": "default",
+        "priority_weight": 1,
+        "operator": "_PythonDecoratedOperator",
+        "operator_name": "@task",
+        "queued_when": "2026-11-14T11:51:34.399264Z",
+        "scheduled_when": "2026-11-14T11:51:34.388082Z",
+        "pid": 169,
+        "executor": null,
+        "executor_config": "{}",
+        "note": null,
+        "rendered_map_index": null,
+        "rendered_fields": {
+          "templates_dict": null,
+          "op_args": [
+            {
+              "inject_failure": "none",
+              "work_dir": "/workspace/reports/7396e5f961473894"
+            }
+          ],
+          "op_kwargs": {}
+        },
+        "trigger": null,
+        "triggerer_job": null,
+        "dag_version": {
+          "id": "01a1d9e5-bab0-7692-8600-cdde25a469d4",
+          "version_number": 1,
+          "dag_id": "iris_training",
+          "bundle_name": "dags-folder",
+          "bundle_version": null,
+          "created_at": "2026-11-14T11:51:13.840864Z",
+          "dag_display_name": "iris_training",
+          "bundle_url": null
+        }
+      }
+    ],
+    "total_entries": 5,
+    "next_cursor": null,
+    "previous_cursor": null
+  }
+}

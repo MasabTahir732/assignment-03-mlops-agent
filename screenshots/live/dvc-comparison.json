@@ -1,0 +1,46 @@
+{
+  "request_id": "ecfa07c29f984084a7990f9a5e20015e",
+  "mode": "rules",
+  "facts": [
+    "dvc_compare returned actual tool evidence (see evidence)."
+  ],
+  "uncertainties": [],
+  "recommendations": [],
+  "evidence": [
+    {
+      "tool": "dvc_compare",
+      "status": "ok",
+      "data": {
+        "old": "d198973a36ad16605b4c0a4ba73fe9dbaff75480",
+        "new": "6e987ba1193c5763d8ff59d883f794ed2c088a90",
+        "diff": {
+          "added": [],
+          "deleted": [],
+          "modified": [
+            {
+              "path": "data/iris.csv"
+            }
+          ],
+          "renamed": []
+        },
+        "pointers": {
+          "v1": {
+            "md5": "4a3beb7462eb695a87c685647c3245c2",
+            "size": 2217,
+            "hash": "md5",
+            "path": "iris.csv"
+          },
+          "v2": {
+            "md5": "4224576f0267bf88902f87f0f6200967",
+            "size": 2757,
+            "hash": "md5",
+            "path": "iris.csv"
+          }
+        }
+      },
+      "error": null,
+      "request_id": "ecfa07c29f984084a7990f9a5e20015e",
+      "duration_ms": 771.99
+    }
+  ]
+}

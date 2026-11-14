@@ -1,0 +1,1121 @@
+{
+  "investigations": [
+    {
+      "injection": "validation",
+      "run": {
+        "dag_run_id": "agent__febfa8a9abc44647b94d2e3638205137",
+        "dag_id": "iris_training",
+        "logical_date": "2026-11-14T11:51:41.946289Z",
+        "queued_at": "2026-11-14T11:51:41.958324Z",
+        "start_date": "2026-11-14T11:51:42.277492Z",
+        "end_date": "2026-11-14T11:52:06.505436Z",
+        "duration": 24.227944,
+        "data_interval_start": "2026-11-14T11:51:41.946289Z",
+        "data_interval_end": "2026-11-14T11:51:41.946289Z",
+        "run_after": "2026-11-14T11:51:41.954003Z",
+        "last_scheduling_decision": "2026-11-14T11:52:06.503373Z",
+        "run_type": "manual",
+        "state": "failed",
+        "triggered_by": "rest_api",
+        "triggering_user_name": "admin",
+        "conf": {
+          "inject_failure": "validation"
+        },
+        "note": null,
+        "dag_versions": [
+          {
+            "id": "01a1d9e5-bab0-7692-8600-cdde25a469d4",
+            "version_number": 1,
+            "dag_id": "iris_training",
+            "bundle_name": "dags-folder",
+            "bundle_version": null,
+            "created_at": "2026-11-14T11:51:13.840864Z",
+            "dag_display_name": "iris_training",
+            "bundle_url": null
+          }
+        ],
+        "bundle_version": null,
+        "dag_display_name": "iris_training",
+        "partition_key": null,
+        "partition_date": null
+      },
+      "diagnosis": {
+        "failed_tasks": [
+          {
+            "task_id": "preprocess_data",
+            "state": "upstream_failed",
+            "try_number": 0,
+            "start_date": "2026-11-14T11:52:02.366293Z",
+            "end_date": "2026-11-14T11:52:02.366293Z"
+          },
+          {
+            "task_id": "train_model",
+            "state": "upstream_failed",
+            "try_number": 0,
+            "start_date": "2026-11-14T11:52:03.408276Z",
+            "end_date": "2026-11-14T11:52:03.408276Z"
+          },
+          {
+            "task_id": "evaluate_and_log",
+            "state": "upstream_failed",
+            "try_number": 0,
+            "start_date": "2026-11-14T11:52:04.442193Z",
+            "end_date": "2026-11-14T11:52:04.442193Z"
+          },
+          {
+            "task_id": "quality_gate",
+            "state": "upstream_failed",
+            "try_number": 0,
+            "start_date": "2026-11-14T11:52:05.474087Z",
+            "end_date": "2026-11-14T11:52:05.474087Z"
+          },
+          {
+            "task_id": "validate_data",
+            "state": "failed",
+            "try_number": 2,
+            "start_date": "2026-11-14T11:51:55.313037Z",
+            "end_date": "2026-11-14T11:52:02.344303Z",
+            "logs": {
+              "content": [
+                {
+                  "event": "::group::Log message source details"
+                },
+                {
+                  "event": "/opt/airflow/logs/dag_id=iris_training/run_id=agent__febfa8a9abc44647b94d2e3638205137/task_id=validate_data/attempt=2.log"
+                },
+                {
+                  "event": "::endgroup::"
+                },
+                {
+                  "timestamp": "2026-11-14T11:51:55.325284Z",
+                  "event": "::group::Pre Execute",
+                  "level": "info",
+                  "logger": "task",
+                  "filename": "task_runner.py",
+                  "lineno": 2412
+                },
+                {
+                  "timestamp": "2026-11-14T11:51:55.340384Z",
+                  "event": "DAG bundles loaded: dags-folder",
+                  "level": "info",
+                  "map_index": -1,
+                  "task_id": "validate_data",
+                  "try_number": 2,
+                  "ti_id": "01a1d9e6-321a-7d07-91b9-b907760135db",
+                  "dag_id": "iris_training",
+                  "run_id": "agent__febfa8a9abc44647b94d2e3638205137",
+                  "logger": "airflow.dag_processing.bundles.manager.DagBundlesManager",
+                  "filename": "manager.py",
+                  "lineno": 304
+                },
+                {
+                  "timestamp": "2026-11-14T11:51:55.341118Z",
+                  "event": "Filling up the DagBag from /workspace/dags/training_pipeline.py",
+                  "level": "info",
+                  "map_index": -1,
+                  "task_id": "validate_data",
+                  "try_number": 2,
+                  "ti_id": "01a1d9e6-321a-7d07-91b9-b907760135db",
+                  "dag_id": "iris_training",
+                  "run_id": "agent__febfa8a9abc44647b94d2e3638205137",
+                  "logger": "airflow.dag_processing.dagbag.BundleDagBag",
+                  "filename": "dagbag.py",
+                  "lineno": 460
+                },
+                {
+                  "timestamp": "2026-11-14T11:51:57.291020Z",
+                  "event": "Worker startup parse complete",
+                  "level": "info",
+                  "bundle_name": "dags-folder",
+                  "bundle_version": null,
+                  "dag_file": "training_pipeline.py",
+                  "dag_id": "iris_training",
+                  "bundle_prepare_ms": 1,
+                  "dag_file_parse_ms": 1950,
+                  "map_index": -1,
+                  "task_id": "validate_data",
+                  "try_number": 2,
+                  "ti_id": "01a1d9e6-321a-7d07-91b9-b907760135db",
+                  "run_id": "agent__febfa8a9abc44647b94d2e3638205137",
+                  "logger": "task",
+                  "filename": "task_runner.py",
+                  "lineno": 1073
+                },
+                {
+                  "timestamp": "2026-11-14T11:51:57.313139Z",
+                  "event": "::endgroup::",
+                  "level": "info",
+                  "map_index": -1,
+                  "task_id": "validate_data",
+                  "try_number": 2,
+                  "ti_id": "01a1d9e6-321a-7d07-91b9-b907760135db",
+                  "dag_id": "iris_training",
+                  "run_id": "agent__febfa8a9abc44647b94d2e3638205137",
+                  "logger": "task",
+                  "filename": "task_runner.py",
+                  "lineno": 2232
+                },
+                {
+                  "timestamp": "2026-11-14T11:51:57.315178Z",
+                  "event": "Validating tiny dataset; failure mode=validation",
+                  "level": "info",
+                  "logger": "root",
+                  "map_index": -1,
+                  "task_id": "validate_data",
+                  "try_number": 2,
+                  "ti_id": "01a1d9e6-321a-7d07-91b9-b907760135db",
+                  "dag_id": "iris_training",
+                  "run_id": "agent__febfa8a9abc44647b94d2e3638205137",
+                  "filename": "training_pipeline.py",
+                  "lineno": 30
+                },
+                {
+                  "timestamp": "2026-11-14T11:51:57.315447Z",
+                  "event": "Task failed with exception",
+                  "level": "error",
+                  "map_index": -1,
+                  "task_id": "validate_data",
+                  "try_number": 2,
+                  "ti_id": "01a1d9e6-321a-7d07-91b9-b907760135db",
+                  "dag_id": "iris_training",
+                  "run_id": "agent__febfa8a9abc44647b94d2e3638205137",
+                  "logger": "task",
+                  "filename": "task_runner.py",
+                  "lineno": 1676,
+                  "error_detail": [
+                    {
+                      "exc_type": "ValueError",
+                      "exc_value": "INJECTED_VALIDATION_FAILURE: required target column is missing",
+                      "exc_notes": [],
+                      "syntax_error": null,
+                      "is_cause": false,
+                      "frames": [
+                        {
+                          "filename": "/home/airflow/.local/lib/python3.12/site-packages/airflow/sdk/execution_time/task_runner.py",
+                          "lineno": 1579,
+                          "name": "_run_task_and_map_outcome"
+                        },
+                        {
+                          "filename": "/home/airflow/.local/lib/python3.12/site-packages/airflow/sdk/execution_time/task_runner.py",
+                          "lineno": 197,
+                          "name": "wrapper"
+                        },
+                        {
+                          "filename": "/home/airflow/.local/lib/python3.12/site-packages/airflow/sdk/execution_time/task_runner.py",
+                          "lineno": 2234,
+                          "name": "_execute_task"
+                        },
+                        {
+                          "filename": "/home/airflow/.local/lib/python3.12/site-packages/airflow/sdk/execution_time/task_runner.py",
+                          "lineno": 197,
+                          "name": "wrapper"
+                        },
+                        {
+                          "filename": "/home/airflow/.local/lib/python3.12/site-packages/airflow/sdk/execution_time/task_runner.py",
+                          "lineno": 2192,
+                          "name": "_run_execute_callable"
+                        },
+                        {
+                          "filename": "/home/airflow/.local/lib/python3.12/site-packages/airflow/sdk/bases/operator.py",
+                          "lineno": 445,
+                          "name": "wrapper"
+                        },
+                        {
+                          "filename": "/home/airflow/.local/lib/python3.12/site-packages/airflow/sdk/bases/decorator.py",
+                          "lineno": 398,
+                          "name": "execute"
+                        },
+                        {
+                          "filename": "/home/airflow/.local/lib/python3.12/site-packages/airflow/sdk/bases/operator.py",
+                          "lineno": 445,
+                          "name": "wrapper"
+                        },
+                        {
+                          "filename": "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/standard/operators/python.py",
+                          "lineno": 231,
+                          "name": "execute"
+                        },
+                        {
+                          "filename": "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/standard/operators/python.py",
+                          "lineno": 254,
+                          "name": "execute_callable"
+                        },
+                        {
+                          "filename": "/home/airflow/.local/lib/python3.12/site-packages/airflow/sdk/execution_time/callback_runner.py",
+                          "lineno": 97,
+                          "name": "run"
+                        },
+                        {
+                          "filename": "/workspace/dags/training_pipeline.py",
+                          "lineno": 31,
+                          "name": "validate_data"
+                        },
+                        {
+                          "filename": "/workspace/training/train.py",
+                          "lineno": 42,
+                          "name": "validate"
+                        }
+                      ],
+                      "is_group": false,
+                      "exceptions": []
+                    }
+                  ]
+                },
+                {
+                  "timestamp": "2026-11-14T11:51:57.315888Z",
+                  "event": "::group::Post Execute",
+                  "level": "info",
+                  "map_index": -1,
+                  "task_id": "validate_data",
+                  "try_number": 2,
+                  "ti_id": "01a1d9e6-321a-7d07-91b9-b907760135db",
+                  "dag_id": "iris_training",
+                  "run_id": "agent__febfa8a9abc44647b94d2e3638205137",
+                  "logger": "task",
+                  "filename": "task_runner.py",
+                  "lineno": 1677
+                },
+                {
+                  "timestamp": "2026-11-14T11:51:57.318948Z",
+                  "event": "::endgroup::",
+                  "level": "info",
+                  "map_index": -1,
+                  "task_id": "validate_data",
+                  "try_number": 2,
+                  "ti_id": "01a1d9e6-321a-7d07-91b9-b907760135db",
+                  "dag_id": "iris_training",
+                  "run_id": "agent__febfa8a9abc44647b94d2e3638205137",
+                  "logger": "task",
+                  "filename": "task_runner.py",
+                  "lineno": 2379
+                }
+              ],
+              "continuation_token": null
+            }
+          }
+        ],
+        "tasks": {
+          "task_instances": [
+            {
+              "id": "01a1d9e6-2892-7686-861e-f93b588b0663",
+              "task_id": "preprocess_data",
+              "dag_id": "iris_training",
+              "dag_run_id": "agent__febfa8a9abc44647b94d2e3638205137",
+              "map_index": -1,
+              "logical_date": "2026-11-14T11:51:41.946289Z",
+              "run_after": "2026-11-14T11:51:41.954003Z",
+              "start_date": "2026-11-14T11:52:02.366293Z",
+              "end_date": "2026-11-14T11:52:02.366293Z",
+              "duration": 0.0,
+              "state": "upstream_failed",
+              "try_number": 0,
+              "max_tries": 1,
+              "task_display_name": "preprocess_data",
+              "dag_display_name": "iris_training",
+              "hostname": "",
+              "unixname": "airflow",
+              "pool": "default_pool",
+              "pool_slots": 1,
+              "queue": "default",
+              "priority_weight": 4,
+              "operator": "_PythonDecoratedOperator",
+              "operator_name": "@task",
+              "queued_when": null,
+              "scheduled_when": null,
+              "pid": null,
+              "executor": null,
+              "executor_config": "{}",
+              "note": null,
+              "rendered_map_index": null,
+              "rendered_fields": {},
+              "trigger": null,
+              "triggerer_job": null,
+              "dag_version": {
+                "id": "01a1d9e5-bab0-7692-8600-cdde25a469d4",
+                "version_number": 1,
+                "dag_id": "iris_training",
+                "bundle_name": "dags-folder",
+                "bundle_version": null,
+                "created_at": "2026-11-14T11:51:13.840864Z",
+                "dag_display_name": "iris_training",
+                "bundle_url": null
+              }
+            },
+            {
+              "id": "01a1d9e6-2893-7df9-a030-14224e880267",
+              "task_id": "train_model",
+              "dag_id": "iris_training",
+              "dag_run_id": "agent__febfa8a9abc44647b94d2e3638205137",
+              "map_index": -1,
+              "logical_date": "2026-11-14T11:51:41.946289Z",
+              "run_after": "2026-11-14T11:51:41.954003Z",
+              "start_date": "2026-11-14T11:52:03.408276Z",
+              "end_date": "2026-11-14T11:52:03.408276Z",
+              "duration": 0.0,
+              "state": "upstream_failed",
+              "try_number": 0,
+              "max_tries": 1,
+              "task_display_name": "train_model",
+              "dag_display_name": "iris_training",
+              "hostname": "",
+              "unixname": "airflow",
+              "pool": "default_pool",
+              "pool_slots": 1,
+              "queue": "default",
+              "priority_weight": 3,
+              "operator": "_PythonDecoratedOperator",
+              "operator_name": "@task",
+              "queued_when": null,
+              "scheduled_when": null,
+              "pid": null,
+              "executor": null,
+              "executor_config": "{}",
+              "note": null,
+              "rendered_map_index": null,
+              "rendered_fields": {},
+              "trigger": null,
+              "triggerer_job": null,
+              "dag_version": {
+                "id": "01a1d9e5-bab0-7692-8600-cdde25a469d4",
+                "version_number": 1,
+                "dag_id": "iris_training",
+                "bundle_name": "dags-folder",
+                "bundle_version": null,
+                "created_at": "2026-11-14T11:51:13.840864Z",
+                "dag_display_name": "iris_training",
+                "bundle_url": null
+              }
+            },
+            {
+              "id": "01a1d9e6-2894-74eb-b5a2-b1fe5eef8802",
+              "task_id": "evaluate_and_log",
+              "dag_id": "iris_training",
+              "dag_run_id": "agent__febfa8a9abc44647b94d2e3638205137",
+              "map_index": -1,
+              "logical_date": "2026-11-14T11:51:41.946289Z",
+              "run_after": "2026-11-14T11:51:41.954003Z",
+              "start_date": "2026-11-14T11:52:04.442193Z",
+              "end_date": "2026-11-14T11:52:04.442193Z",
+              "duration": 0.0,
+              "state": "upstream_failed",
+              "try_number": 0,
+              "max_tries": 1,
+              "task_display_name": "evaluate_and_log",
+              "dag_display_name": "iris_training",
+              "hostname": "",
+              "unixname": "airflow",
+              "pool": "default_pool",
+              "pool_slots": 1,
+              "queue": "default",
+              "priority_weight": 2,
+              "operator": "_PythonDecoratedOperator",
+              "operator_name": "@task",
+              "queued_when": null,
+              "scheduled_when": null,
+              "pid": null,
+              "executor": null,
+              "executor_config": "{}",
+              "note": null,
+              "rendered_map_index": null,
+              "rendered_fields": {},
+              "trigger": null,
+              "triggerer_job": null,
+              "dag_version": {
+                "id": "01a1d9e5-bab0-7692-8600-cdde25a469d4",
+                "version_number": 1,
+                "dag_id": "iris_training",
+                "bundle_name": "dags-folder",
+                "bundle_version": null,
+                "created_at": "2026-11-14T11:51:13.840864Z",
+                "dag_display_name": "iris_training",
+                "bundle_url": null
+              }
+            },
+            {
+              "id": "01a1d9e6-2895-7e83-ab90-ff2d1ef67e3b",
+              "task_id": "quality_gate",
+              "dag_id": "iris_training",
+              "dag_run_id": "agent__febfa8a9abc44647b94d2e3638205137",
+              "map_index": -1,
+              "logical_date": "2026-11-14T11:51:41.946289Z",
+              "run_after": "2026-11-14T11:51:41.954003Z",
+              "start_date": "2026-11-14T11:52:05.474087Z",
+              "end_date": "2026-11-14T11:52:05.474087Z",
+              "duration": 0.0,
+              "state": "upstream_failed",
+              "try_number": 0,
+              "max_tries": 1,
+              "task_display_name": "quality_gate",
+              "dag_display_name": "iris_training",
+              "hostname": "",
+              "unixname": "airflow",
+              "pool": "default_pool",
+              "pool_slots": 1,
+              "queue": "default",
+              "priority_weight": 1,
+              "operator": "_PythonDecoratedOperator",
+              "operator_name": "@task",
+              "queued_when": null,
+              "scheduled_when": null,
+              "pid": null,
+              "executor": null,
+              "executor_config": "{}",
+              "note": null,
+              "rendered_map_index": null,
+              "rendered_fields": {},
+              "trigger": null,
+              "triggerer_job": null,
+              "dag_version": {
+                "id": "01a1d9e5-bab0-7692-8600-cdde25a469d4",
+                "version_number": 1,
+                "dag_id": "iris_training",
+                "bundle_name": "dags-folder",
+                "bundle_version": null,
+                "created_at": "2026-11-14T11:51:13.840864Z",
+                "dag_display_name": "iris_training",
+                "bundle_url": null
+              }
+            },
+            {
+              "id": "01a1d9e6-321a-7d07-91b9-b907760135db",
+              "task_id": "validate_data",
+              "dag_id": "iris_training",
+              "dag_run_id": "agent__febfa8a9abc44647b94d2e3638205137",
+              "map_index": -1,
+              "logical_date": "2026-11-14T11:51:41.946289Z",
+              "run_after": "2026-11-14T11:51:41.954003Z",
+              "start_date": "2026-11-14T11:51:55.313037Z",
+              "end_date": "2026-11-14T11:52:02.344303Z",
+              "duration": 7.031266,
+              "state": "failed",
+              "try_number": 2,
+              "max_tries": 1,
+              "task_display_name": "validate_data",
+              "dag_display_name": "iris_training",
+              "hostname": "c78766e30cc9",
+              "unixname": "airflow",
+              "pool": "default_pool",
+              "pool_slots": 1,
+              "queue": "default",
+              "priority_weight": 5,
+              "operator": "_PythonDecoratedOperator",
+              "operator_name": "@task",
+              "queued_when": "2026-11-14T11:51:55.205158Z",
+              "scheduled_when": "2026-11-14T11:51:55.194698Z",
+              "pid": 202,
+              "executor": null,
+              "executor_config": "{}",
+              "note": null,
+              "rendered_map_index": null,
+              "rendered_fields": {
+                "templates_dict": null,
+                "op_args": [],
+                "op_kwargs": {}
+              },
+              "trigger": null,
+              "triggerer_job": null,
+              "dag_version": {
+                "id": "01a1d9e5-bab0-7692-8600-cdde25a469d4",
+                "version_number": 1,
+                "dag_id": "iris_training",
+                "bundle_name": "dags-folder",
+                "bundle_version": null,
+                "created_at": "2026-11-14T11:51:13.840864Z",
+                "dag_display_name": "iris_training",
+                "bundle_url": null
+              }
+            }
+          ],
+          "total_entries": 5,
+          "next_cursor": null,
+          "previous_cursor": null
+        },
+        "note": "Use the task logs for root cause; upstream_failed is a consequence."
+      },
+      "approved_model_unchanged": true,
+      "root_cause": "Injected missing-target validation error",
+      "resolution": "Remove failure injection and rerun with the original validation/gate"
+    },
+    {
+      "injection": "quality",
+      "run": {
+        "dag_run_id": "agent__5823b5b4c9e047f1af3d6b26c996cd18",
+        "dag_id": "iris_training",
+        "logical_date": "2026-11-14T11:52:09.287984Z",
+        "queued_at": "2026-11-14T11:52:09.303279Z",
+        "start_date": "2026-11-14T11:52:10.320976Z",
+        "end_date": "2026-11-14T11:52:41.480090Z",
+        "duration": 31.159114,
+        "data_interval_start": "2026-11-14T11:52:09.287984Z",
+        "data_interval_end": "2026-11-14T11:52:09.287984Z",
+        "run_after": "2026-11-14T11:52:09.297871Z",
+        "last_scheduling_decision": "2026-11-14T11:52:41.477270Z",
+        "run_type": "manual",
+        "state": "failed",
+        "triggered_by": "rest_api",
+        "triggering_user_name": "admin",
+        "conf": {
+          "inject_failure": "quality"
+        },
+        "note": null,
+        "dag_versions": [
+          {
+            "id": "01a1d9e5-bab0-7692-8600-cdde25a469d4",
+            "version_number": 1,
+            "dag_id": "iris_training",
+            "bundle_name": "dags-folder",
+            "bundle_version": null,
+            "created_at": "2026-11-14T11:51:13.840864Z",
+            "dag_display_name": "iris_training",
+            "bundle_url": null
+          }
+        ],
+        "bundle_version": null,
+        "dag_display_name": "iris_training",
+        "partition_key": null,
+        "partition_date": null
+      },
+      "diagnosis": {
+        "failed_tasks": [
+          {
+            "task_id": "quality_gate",
+            "state": "failed",
+            "try_number": 2,
+            "start_date": "2026-11-14T11:52:33.625233Z",
+            "end_date": "2026-11-14T11:52:40.635702Z",
+            "logs": {
+              "content": [
+                {
+                  "event": "::group::Log message source details"
+                },
+                {
+                  "event": "/opt/airflow/logs/dag_id=iris_training/run_id=agent__5823b5b4c9e047f1af3d6b26c996cd18/task_id=quality_gate/attempt=2.log"
+                },
+                {
+                  "event": "::endgroup::"
+                },
+                {
+                  "timestamp": "2026-11-14T11:52:33.636924Z",
+                  "event": "::group::Pre Execute",
+                  "level": "info",
+                  "logger": "task",
+                  "filename": "task_runner.py",
+                  "lineno": 2412
+                },
+                {
+                  "timestamp": "2026-11-14T11:52:33.650931Z",
+                  "event": "DAG bundles loaded: dags-folder",
+                  "level": "info",
+                  "map_index": -1,
+                  "task_id": "quality_gate",
+                  "dag_id": "iris_training",
+                  "try_number": 2,
+                  "run_id": "agent__5823b5b4c9e047f1af3d6b26c996cd18",
+                  "ti_id": "01a1d9e6-cab9-7f87-9d75-26f84e1e6a60",
+                  "logger": "airflow.dag_processing.bundles.manager.DagBundlesManager",
+                  "filename": "manager.py",
+                  "lineno": 304
+                },
+                {
+                  "timestamp": "2026-11-14T11:52:33.651783Z",
+                  "event": "Filling up the DagBag from /workspace/dags/training_pipeline.py",
+                  "level": "info",
+                  "map_index": -1,
+                  "task_id": "quality_gate",
+                  "dag_id": "iris_training",
+                  "try_number": 2,
+                  "run_id": "agent__5823b5b4c9e047f1af3d6b26c996cd18",
+                  "ti_id": "01a1d9e6-cab9-7f87-9d75-26f84e1e6a60",
+                  "logger": "airflow.dag_processing.dagbag.BundleDagBag",
+                  "filename": "dagbag.py",
+                  "lineno": 460
+                },
+                {
+                  "timestamp": "2026-11-14T11:52:35.576790Z",
+                  "event": "Worker startup parse complete",
+                  "level": "info",
+                  "bundle_name": "dags-folder",
+                  "bundle_version": null,
+                  "dag_file": "training_pipeline.py",
+                  "dag_id": "iris_training",
+                  "bundle_prepare_ms": 1,
+                  "dag_file_parse_ms": 1925,
+                  "map_index": -1,
+                  "task_id": "quality_gate",
+                  "try_number": 2,
+                  "run_id": "agent__5823b5b4c9e047f1af3d6b26c996cd18",
+                  "ti_id": "01a1d9e6-cab9-7f87-9d75-26f84e1e6a60",
+                  "logger": "task",
+                  "filename": "task_runner.py",
+                  "lineno": 1073
+                },
+                {
+                  "timestamp": "2026-11-14T11:52:35.604363Z",
+                  "event": "::endgroup::",
+                  "level": "info",
+                  "map_index": -1,
+                  "task_id": "quality_gate",
+                  "dag_id": "iris_training",
+                  "try_number": 2,
+                  "run_id": "agent__5823b5b4c9e047f1af3d6b26c996cd18",
+                  "ti_id": "01a1d9e6-cab9-7f87-9d75-26f84e1e6a60",
+                  "logger": "task",
+                  "filename": "task_runner.py",
+                  "lineno": 2232
+                },
+                {
+                  "timestamp": "2026-11-14T11:52:35.605984Z",
+                  "event": "Quality gate: macro F1 >= 0.90",
+                  "level": "info",
+                  "logger": "root",
+                  "map_index": -1,
+                  "task_id": "quality_gate",
+                  "dag_id": "iris_training",
+                  "try_number": 2,
+                  "run_id": "agent__5823b5b4c9e047f1af3d6b26c996cd18",
+                  "ti_id": "01a1d9e6-cab9-7f87-9d75-26f84e1e6a60",
+                  "filename": "training_pipeline.py",
+                  "lineno": 58
+                },
+                {
+                  "timestamp": "2026-11-14T11:52:35.606362Z",
+                  "event": "Task failed with exception",
+                  "level": "error",
+                  "map_index": -1,
+                  "task_id": "quality_gate",
+                  "dag_id": "iris_training",
+                  "try_number": 2,
+                  "run_id": "agent__5823b5b4c9e047f1af3d6b26c996cd18",
+                  "ti_id": "01a1d9e6-cab9-7f87-9d75-26f84e1e6a60",
+                  "logger": "task",
+                  "filename": "task_runner.py",
+                  "lineno": 1676,
+                  "error_detail": [
+                    {
+                      "exc_type": "ValueError",
+                      "exc_value": "QUALITY_GATE_FAILED: candidate blocked; deployed model is unchanged",
+                      "exc_notes": [],
+                      "syntax_error": null,
+                      "is_cause": false,
+                      "frames": [
+                        {
+                          "filename": "/home/airflow/.local/lib/python3.12/site-packages/airflow/sdk/execution_time/task_runner.py",
+                          "lineno": 1579,
+                          "name": "_run_task_and_map_outcome"
+                        },
+                        {
+                          "filename": "/home/airflow/.local/lib/python3.12/site-packages/airflow/sdk/execution_time/task_runner.py",
+                          "lineno": 197,
+                          "name": "wrapper"
+                        },
+                        {
+                          "filename": "/home/airflow/.local/lib/python3.12/site-packages/airflow/sdk/execution_time/task_runner.py",
+                          "lineno": 2234,
+                          "name": "_execute_task"
+                        },
+                        {
+                          "filename": "/home/airflow/.local/lib/python3.12/site-packages/airflow/sdk/execution_time/task_runner.py",
+                          "lineno": 197,
+                          "name": "wrapper"
+                        },
+                        {
+                          "filename": "/home/airflow/.local/lib/python3.12/site-packages/airflow/sdk/execution_time/task_runner.py",
+                          "lineno": 2192,
+                          "name": "_run_execute_callable"
+                        },
+                        {
+                          "filename": "/home/airflow/.local/lib/python3.12/site-packages/airflow/sdk/bases/operator.py",
+                          "lineno": 445,
+                          "name": "wrapper"
+                        },
+                        {
+                          "filename": "/home/airflow/.local/lib/python3.12/site-packages/airflow/sdk/bases/decorator.py",
+                          "lineno": 398,
+                          "name": "execute"
+                        },
+                        {
+                          "filename": "/home/airflow/.local/lib/python3.12/site-packages/airflow/sdk/bases/operator.py",
+                          "lineno": 445,
+                          "name": "wrapper"
+                        },
+                        {
+                          "filename": "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/standard/operators/python.py",
+                          "lineno": 231,
+                          "name": "execute"
+                        },
+                        {
+                          "filename": "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/standard/operators/python.py",
+                          "lineno": 254,
+                          "name": "execute_callable"
+                        },
+                        {
+                          "filename": "/home/airflow/.local/lib/python3.12/site-packages/airflow/sdk/execution_time/callback_runner.py",
+                          "lineno": 97,
+                          "name": "run"
+                        },
+                        {
+                          "filename": "/workspace/dags/training_pipeline.py",
+                          "lineno": 59,
+                          "name": "quality_gate"
+                        },
+                        {
+                          "filename": "/workspace/training/train.py",
+                          "lineno": 159,
+                          "name": "quality_gate"
+                        }
+                      ],
+                      "is_group": false,
+                      "exceptions": []
+                    }
+                  ]
+                },
+                {
+                  "timestamp": "2026-11-14T11:52:35.606746Z",
+                  "event": "::group::Post Execute",
+                  "level": "info",
+                  "map_index": -1,
+                  "task_id": "quality_gate",
+                  "dag_id": "iris_training",
+                  "try_number": 2,
+                  "run_id": "agent__5823b5b4c9e047f1af3d6b26c996cd18",
+                  "ti_id": "01a1d9e6-cab9-7f87-9d75-26f84e1e6a60",
+                  "logger": "task",
+                  "filename": "task_runner.py",
+                  "lineno": 1677
+                },
+                {
+                  "timestamp": "2026-11-14T11:52:35.609657Z",
+                  "event": "::endgroup::",
+                  "level": "info",
+                  "map_index": -1,
+                  "task_id": "quality_gate",
+                  "dag_id": "iris_training",
+                  "try_number": 2,
+                  "run_id": "agent__5823b5b4c9e047f1af3d6b26c996cd18",
+                  "ti_id": "01a1d9e6-cab9-7f87-9d75-26f84e1e6a60",
+                  "logger": "task",
+                  "filename": "task_runner.py",
+                  "lineno": 2379
+                }
+              ],
+              "continuation_token": null
+            }
+          }
+        ],
+        "tasks": {
+          "task_instances": [
+            {
+              "id": "01a1d9e6-9360-7a72-b7b7-8055ace7a7af",
+              "task_id": "validate_data",
+              "dag_id": "iris_training",
+              "dag_run_id": "agent__5823b5b4c9e047f1af3d6b26c996cd18",
+              "map_index": -1,
+              "logical_date": "2026-11-14T11:52:09.287984Z",
+              "run_after": "2026-11-14T11:52:09.297871Z",
+              "start_date": "2026-11-14T11:52:10.438122Z",
+              "end_date": "2026-11-14T11:52:12.402694Z",
+              "duration": 1.964572,
+              "state": "success",
+              "try_number": 1,
+              "max_tries": 1,
+              "task_display_name": "validate_data",
+              "dag_display_name": "iris_training",
+              "hostname": "c78766e30cc9",
+              "unixname": "airflow",
+              "pool": "default_pool",
+              "pool_slots": 1,
+              "queue": "default",
+              "priority_weight": 5,
+              "operator": "_PythonDecoratedOperator",
+              "operator_name": "@task",
+              "queued_when": "2026-11-14T11:52:10.342791Z",
+              "scheduled_when": "2026-11-14T11:52:10.331171Z",
+              "pid": 211,
+              "executor": null,
+              "executor_config": "{}",
+              "note": null,
+              "rendered_map_index": null,
+              "rendered_fields": {
+                "templates_dict": null,
+                "op_args": [],
+                "op_kwargs": {}
+              },
+              "trigger": null,
+              "triggerer_job": null,
+              "dag_version": {
+                "id": "01a1d9e5-bab0-7692-8600-cdde25a469d4",
+                "version_number": 1,
+                "dag_id": "iris_training",
+                "bundle_name": "dags-folder",
+                "bundle_version": null,
+                "created_at": "2026-11-14T11:51:13.840864Z",
+                "dag_display_name": "iris_training",
+                "bundle_url": null
+              }
+            },
+            {
+              "id": "01a1d9e6-9361-7285-9e4c-65388efa5360",
+              "task_id": "preprocess_data",
+              "dag_id": "iris_training",
+              "dag_run_id": "agent__5823b5b4c9e047f1af3d6b26c996cd18",
+              "map_index": -1,
+              "logical_date": "2026-11-14T11:52:09.287984Z",
+              "run_after": "2026-11-14T11:52:09.297871Z",
+              "start_date": "2026-11-14T11:52:12.547202Z",
+              "end_date": "2026-11-14T11:52:14.508604Z",
+              "duration": 1.961402,
+              "state": "success",
+              "try_number": 1,
+              "max_tries": 1,
+              "task_display_name": "preprocess_data",
+              "dag_display_name": "iris_training",
+              "hostname": "c78766e30cc9",
+              "unixname": "airflow",
+              "pool": "default_pool",
+              "pool_slots": 1,
+              "queue": "default",
+              "priority_weight": 4,
+              "operator": "_PythonDecoratedOperator",
+              "operator_name": "@task",
+              "queued_when": "2026-11-14T11:52:12.445580Z",
+              "scheduled_when": "2026-11-14T11:52:12.434592Z",
+              "pid": 221,
+              "executor": null,
+              "executor_config": "{}",
+              "note": null,
+              "rendered_map_index": null,
+              "rendered_fields": {
+                "templates_dict": null,
+                "op_args": [
+                  {
+                    "inject_failure": "quality",
+                    "work_dir": "/workspace/reports/f06b8120855c57e1"
+                  }
+                ],
+                "op_kwargs": {}
+              },
+              "trigger": null,
+              "triggerer_job": null,
+              "dag_version": {
+                "id": "01a1d9e5-bab0-7692-8600-cdde25a469d4",
+                "version_number": 1,
+                "dag_id": "iris_training",
+                "bundle_name": "dags-folder",
+                "bundle_version": null,
+                "created_at": "2026-11-14T11:51:13.840864Z",
+                "dag_display_name": "iris_training",
+                "bundle_url": null
+              }
+            },
+            {
+              "id": "01a1d9e6-9362-7065-8cde-a54cce3ab247",
+              "task_id": "train_model",
+              "dag_id": "iris_training",
+              "dag_run_id": "agent__5823b5b4c9e047f1af3d6b26c996cd18",
+              "map_index": -1,
+              "logical_date": "2026-11-14T11:52:09.287984Z",
+              "run_after": "2026-11-14T11:52:09.297871Z",
+              "start_date": "2026-11-14T11:52:14.656631Z",
+              "end_date": "2026-11-14T11:52:16.731808Z",
+              "duration": 2.075177,
+              "state": "success",
+              "try_number": 1,
+              "max_tries": 1,
+              "task_display_name": "train_model",
+              "dag_display_name": "iris_training",
+              "hostname": "c78766e30cc9",
+              "unixname": "airflow",
+              "pool": "default_pool",
+              "pool_slots": 1,
+              "queue": "default",
+              "priority_weight": 3,
+              "operator": "_PythonDecoratedOperator",
+              "operator_name": "@task",
+              "queued_when": "2026-11-14T11:52:14.558253Z",
+              "scheduled_when": "2026-11-14T11:52:14.546154Z",
+              "pid": 230,
+              "executor": null,
+              "executor_config": "{}",
+              "note": null,
+              "rendered_map_index": null,
+              "rendered_fields": {
+                "templates_dict": null,
+                "op_args": [
+                  {
+                    "inject_failure": "quality",
+                    "work_dir": "/workspace/reports/f06b8120855c57e1"
+                  }
+                ],
+                "op_kwargs": {}
+              },
+              "trigger": null,
+              "triggerer_job": null,
+              "dag_version": {
+                "id": "01a1d9e5-bab0-7692-8600-cdde25a469d4",
+                "version_number": 1,
+                "dag_id": "iris_training",
+                "bundle_name": "dags-folder",
+                "bundle_version": null,
+                "created_at": "2026-11-14T11:51:13.840864Z",
+                "dag_display_name": "iris_training",
+                "bundle_url": null
+              }
+            },
+            {
+              "id": "01a1d9e6-9363-7a45-a363-a49f36239a58",
+              "task_id": "evaluate_and_log",
+              "dag_id": "iris_training",
+              "dag_run_id": "agent__5823b5b4c9e047f1af3d6b26c996cd18",
+              "map_index": -1,
+              "logical_date": "2026-11-14T11:52:09.287984Z",
+              "run_after": "2026-11-14T11:52:09.297871Z",
+              "start_date": "2026-11-14T11:52:17.829493Z",
+              "end_date": "2026-11-14T11:52:20.413669Z",
+              "duration": 2.584176,
+              "state": "success",
+              "try_number": 1,
+              "max_tries": 1,
+              "task_display_name": "evaluate_and_log",
+              "dag_display_name": "iris_training",
+              "hostname": "c78766e30cc9",
+              "unixname": "airflow",
+              "pool": "default_pool",
+              "pool_slots": 1,
+              "queue": "default",
+              "priority_weight": 2,
+              "operator": "_PythonDecoratedOperator",
+              "operator_name": "@task",
+              "queued_when": "2026-11-14T11:52:17.709059Z",
+              "scheduled_when": "2026-11-14T11:52:17.695860Z",
+              "pid": 244,
+              "executor": null,
+              "executor_config": "{}",
+              "note": null,
+              "rendered_map_index": null,
+              "rendered_fields": {
+                "templates_dict": null,
+                "op_args": [
+                  {
+                    "inject_failure": "quality",
+                    "work_dir": "/workspace/reports/f06b8120855c57e1"
+                  }
+                ],
+                "op_kwargs": {}
+              },
+              "trigger": null,
+              "triggerer_job": null,
+              "dag_version": {
+                "id": "01a1d9e5-bab0-7692-8600-cdde25a469d4",
+                "version_number": 1,
+                "dag_id": "iris_training",
+                "bundle_name": "dags-folder",
+                "bundle_version": null,
+                "created_at": "2026-11-14T11:51:13.840864Z",
+                "dag_display_name": "iris_training",
+                "bundle_url": null
+              }
+            },
+            {
+              "id": "01a1d9e6-cab9-7f87-9d75-26f84e1e6a60",
+              "task_id": "quality_gate",
+              "dag_id": "iris_training",
+              "dag_run_id": "agent__5823b5b4c9e047f1af3d6b26c996cd18",
+              "map_index": -1,
+              "logical_date": "2026-11-14T11:52:09.287984Z",
+              "run_after": "2026-11-14T11:52:09.297871Z",
+              "start_date": "2026-11-14T11:52:33.625233Z",
+              "end_date": "2026-11-14T11:52:40.635702Z",
+              "duration": 7.010469,
+              "state": "failed",
+              "try_number": 2,
+              "max_tries": 1,
+              "task_display_name": "quality_gate",
+              "dag_display_name": "iris_training",
+              "hostname": "c78766e30cc9",
+              "unixname": "airflow",
+              "pool": "default_pool",
+              "pool_slots": 1,
+              "queue": "default",
+              "priority_weight": 1,
+              "operator": "_PythonDecoratedOperator",
+              "operator_name": "@task",
+              "queued_when": "2026-11-14T11:52:33.513259Z",
+              "scheduled_when": "2026-11-14T11:52:33.502199Z",
+              "pid": 273,
+              "executor": null,
+              "executor_config": "{}",
+              "note": null,
+              "rendered_map_index": null,
+              "rendered_fields": {
+                "templates_dict": null,
+                "op_args": [
+                  {
+                    "inject_failure": "quality",
+                    "work_dir": "/workspace/reports/f06b8120855c57e1"
+                  }
+                ],
+                "op_kwargs": {}
+              },
+              "trigger": null,
+              "triggerer_job": null,
+              "dag_version": {
+                "id": "01a1d9e5-bab0-7692-8600-cdde25a469d4",
+                "version_number": 1,
+                "dag_id": "iris_training",
+                "bundle_name": "dags-folder",
+                "bundle_version": null,
+                "created_at": "2026-11-14T11:51:13.840864Z",
+                "dag_display_name": "iris_training",
+                "bundle_url": null
+              }
+            }
+          ],
+          "total_entries": 5,
+          "next_cursor": null,
+          "previous_cursor": null
+        },
+        "note": "Use the task logs for root cause; upstream_failed is a consequence."
+      },
+      "approved_model_unchanged": true,
+      "root_cause": "Injected threshold 1.01 exceeds possible F1",
+      "resolution": "Remove failure injection and rerun with the original validation/gate"
+    }
+  ],
+  "recovery": {
+    "dag_run_id": "agent__b4f4e2bb5c5749d78d3a3708e75cf1ff",
+    "dag_id": "iris_training",
+    "logical_date": "2026-11-14T11:52:42.689816Z",
+    "queued_at": "2026-11-14T11:52:42.701439Z",
+    "start_date": "2026-11-14T11:52:43.530895Z",
+    "end_date": "2026-11-14T11:52:58.470680Z",
+    "duration": 14.939785,
+    "data_interval_start": "2026-11-14T11:52:42.689816Z",
+    "data_interval_end": "2026-11-14T11:52:42.689816Z",
+    "run_after": "2026-11-14T11:52:42.697071Z",
+    "last_scheduling_decision": "2026-11-14T11:52:58.468311Z",
+    "run_type": "manual",
+    "state": "success",
+    "triggered_by": "rest_api",
+    "triggering_user_name": "admin",
+    "conf": {
+      "inject_failure": "none"
+    },
+    "note": null,
+    "dag_versions": [
+      {
+        "id": "01a1d9e5-bab0-7692-8600-cdde25a469d4",
+        "version_number": 1,
+        "dag_id": "iris_training",
+        "bundle_name": "dags-folder",
+        "bundle_version": null,
+        "created_at": "2026-11-14T11:51:13.840864Z",
+        "dag_display_name": "iris_training",
+        "bundle_url": null
+      }
+    ],
+    "bundle_version": null,
+    "dag_display_name": "iris_training",
+    "partition_key": null,
+    "partition_date": null
+  }
+}

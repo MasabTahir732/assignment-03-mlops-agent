@@ -5,6 +5,12 @@ It answers dataset, experiment, pipeline and deployment questions, then combines
 four systems for the fifth integration requirement. The directory structure follows
 the assignment PDF. No paid API key is required.
 
+**Submission report:** [TECHNICAL_REPORT.md](TECHNICAL_REPORT.md) includes the complete
+architecture, permissions, five tested conversations, actual exported evidence,
+two failure investigations, limitations and improvements. The first
+[real infrastructure workflow](https://github.com/MasabTahir732/assignment-03-mlops-agent/actions/runs/43591743449)
+passed with all four services running. Evidence is committed under `screenshots/live/`.
+
 **Tiny data:** Iris v1 has 120 rows; v2 has 150 rows. Each CSV is under 5 KB. Both
 versions are generated from scikit-learn's bundled Iris data; no dataset download.
 The DVC remote is a local ignored folder. DVC versions real CSV contents, not dummy data.
@@ -173,9 +179,9 @@ router, not an LLM. For the **AI agent demonstration**, install Ollama separatel
 then use its tool-calling API with a local model (add `--provider ollama`):
 
 ```powershell
-ollama pull qwen3:4b
-python -m agent.main 'Which datasets are tracked by DVC?' --mode llm
-python -m agent.main 'Find the best recent model, identify the dataset version used to train it, check deployment status, and explain whether retraining is necessary.' --mode llm
+ollama pull qwen3:1.7b
+python -m agent.main 'Which datasets are tracked by DVC?' --mode llm --provider ollama
+python -m agent.main 'Find the best recent model, identify the dataset version used to train it, check deployment status, and explain whether retraining is necessary.' --mode llm --provider ollama
 ```
 
 Ollama must be running at `OLLAMA_URL`; `OLLAMA_MODEL` is configurable. This optional
@@ -183,6 +189,21 @@ model download is much larger than the dataset. Tool schemas constrain its input
 the executor enforces permissions, and the final response is rendered from actual
 evidence rather than free-form model assertions. LLM failure is reported explicitly.
 You can use rules mode for a lightweight repeatable walkthrough of the same tools.
+
+On this Windows computer, Docker is installed **inside Ubuntu WSL**. Use these
+commands from the project terminal to start the local model without a separate
+Windows Ollama installation:
+
+```powershell
+wsl --cd 'D:\SEM 7\assignment-03-mlops-agent' -u root -e docker compose --profile llm up -d ollama
+wsl --cd 'D:\SEM 7\assignment-03-mlops-agent' -u root -e docker compose exec -T ollama ollama pull qwen3:1.7b
+python -m agent.main 'Which datasets are tracked?' --mode llm --provider ollama
+```
+
+The optional Compose profile uses a small CPU-only Ollama image; the model download
+is approximately 1.4 GB and is kept in a persistent volume. Iris data remains under
+3 KB. For the other Docker commands in this README, use the same `wsl --cd ... -u
+root -e` prefix if Docker is only available inside WSL.
 
 The mandatory scenario queries MLflow, follows the candidate's recorded dataset
 commit, inspects DVC and Kubernetes, checks Airflow, and separates facts from

@@ -1,5 +1,7 @@
 from unittest.mock import Mock
 
+import requests
+
 from agent import orchestrator as o
 from agent.planners import gemini_plan
 
@@ -61,3 +63,15 @@ def test_gemini_missing_key_fails_before_network(monkeypatch):
     with pytest.raises(RuntimeError, match="not configured"):
         gemini_plan("List data", [])
     post.assert_not_called()
+
+
+def test_project_access_error_is_helpful_and_secret_safe(monkeypatch):
+    monkeypatch.setenv("GEMINI_API_KEY", "fake-test-secret")
+    monkeypatch.setenv("LLM_PROVIDER", "gemini")
+    response = Mock(status_code=403)
+    response.raise_for_status.side_effect = requests.HTTPError("unsafe key fake-test-secret")
+    monkeypatch.setattr(o.requests, "post", Mock(return_value=response))
+    result = o.ask("Which datasets are tracked?", mode="llm")
+    assert "project access denied (403)" in result.uncertainties[0]
+    assert "fake-test-secret" not in result.model_dump_json()
+    assert not result.evidence

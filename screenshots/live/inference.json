@@ -1,0 +1,18 @@
+{
+  "app_version": "1.0.0",
+  "run_id": "900804b0b83f4f85af88b621a977ae3e",
+  "dataset_hash": "4224576f0267bf88902f87f0f6200967",
+  "dataset_git_commit": "6e987ba1193c5763d8ff59d883f794ed2c088a90",
+  "source_git_commit": "2611db0c3e9844f6fc95a337f68d82c31358f1ef",
+  "dataset_version": "v2",
+  "metrics": {
+    "f1": 0.9487179487179488,
+    "accuracy": 0.9473684210526315
+  },
+  "quality_passed": true,
+  "classes": [
+    "setosa",
+    "versicolor",
+    "virginica"
+  ]
+}
