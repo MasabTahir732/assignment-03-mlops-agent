@@ -3,6 +3,7 @@
 import argparse
 import json
 import logging
+import os
 from uuid import uuid4
 
 from dotenv import load_dotenv
@@ -15,7 +16,8 @@ def main():
     load_dotenv(ROOT / ".env")
     parser = argparse.ArgumentParser(description="Evidence-based MLOps agent")
     parser.add_argument("prompt", nargs="?", help="Natural-language request")
-    parser.add_argument("--mode", choices=["rules", "llm"], default="rules")
+    parser.add_argument("--mode", choices=["auto", "rules", "llm"], default="auto")
+    parser.add_argument("--provider", choices=["gemini", "ollama"])
     parser.add_argument(
         "--confirm", action="store_true", help="Explicitly authorize requested write"
     )
@@ -23,6 +25,15 @@ def main():
     parser.add_argument("--args", default="{}", help="JSON structured tool arguments")
     parser.add_argument("--list-tools", action="store_true")
     args = parser.parse_args()
+    if args.provider:
+        os.environ["LLM_PROVIDER"] = args.provider
+    mode = args.mode
+    if mode == "auto":
+        mode = (
+            "llm"
+            if args.provider or os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY")
+            else "rules"
+        )
     logging.basicConfig(level=logging.INFO, format="%(message)s")
     if args.list_tools:
         output = tool_schemas()
@@ -36,7 +47,7 @@ def main():
         result = execute(args.tool, arguments, uuid4().hex, args.confirm)
         output = result.model_dump()
     elif args.prompt:
-        output = ask(args.prompt, args.mode, args.confirm).model_dump()
+        output = ask(args.prompt, mode, args.confirm).model_dump()
     else:
         parser.error("Supply a prompt, --tool, or --list-tools")
     print(json.dumps(output, indent=2, default=str))

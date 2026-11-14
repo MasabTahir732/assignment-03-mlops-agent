@@ -1,0 +1,51 @@
+name: Live infrastructure demonstration
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  real-services:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12", cache: pip, cache-dependency-path: pyproject.toml}
+      - run: pip install -e '.[dev]'
+      - name: Seed tiny DVC objects and prepare bind mounts
+        run: python -m scripts.live_demo prepare
+      - name: Start real MLflow, PostgreSQL and Airflow 3
+        run: docker compose up -d --build --quiet-pull
+      - name: Execute actual five-stage DAG
+        run: python -m scripts.live_demo pipeline --confirm
+      - name: Inject two failures and verify recovery
+        run: python -m scripts.live_demo failures --confirm
+      - uses: helm/kind-action@v1
+        with:
+          version: v0.29.0
+          node_image: kindest/node:v1.33.1
+          cluster_name: mlops-assignment
+          wait: 120s
+      - name: Build and deploy the actual trained model
+        run: |
+          docker build -t mlops-iris:1.0.0 .
+          kind load docker-image mlops-iris:1.0.0 --name mlops-assignment
+          kubectl apply -f kubernetes/namespace.yaml
+          kubectl apply -f kubernetes/configmap.yaml
+          kubectl apply -f kubernetes/deployment.yaml
+          kubectl apply -f kubernetes/service.yaml
+          kubectl apply -f kubernetes/rbac.yaml
+          kubectl -n mlops-demo rollout status deployment/iris-api --timeout=180s
+          kubectl -n mlops-demo port-forward service/iris-api 8001:80 > reports/port-forward.log 2>&1 &
+          sleep 3
+      - name: Export five real conversations and system evidence
+        run: python -m scripts.live_demo capture
+      - name: Upload actual evidence even if a live check fails
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: actual-mlops-evidence
+          path: reports/live-evidence/
+          if-no-files-found: warn
+          retention-days: 30

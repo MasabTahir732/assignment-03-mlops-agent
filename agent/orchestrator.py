@@ -12,6 +12,7 @@ import requests
 from pydantic import ValidationError
 
 from agent import schemas as s
+from agent.planners import gemini_plan
 from agent.tools import airflow_tools as af
 from agent.tools import dvc_tools as dvc
 from agent.tools import kubernetes_tools as kube
@@ -162,7 +163,7 @@ def rule_plan(prompt: str) -> list[tuple[str, dict]]:
     )
 
 
-def llm_plan(prompt: str) -> list[tuple[str, dict]]:
+def ollama_plan(prompt: str) -> list[tuple[str, dict]]:
     response = requests.post(
         os.getenv("OLLAMA_URL", "http://localhost:11434") + "/api/chat",
         json={
@@ -185,9 +186,16 @@ def llm_plan(prompt: str) -> list[tuple[str, dict]]:
     )
     response.raise_for_status()
     calls = response.json()["message"].get("tool_calls", [])
-    if not calls or len(calls) > 12:
+    return [(c["function"]["name"], c["function"]["arguments"]) for c in calls]
+
+
+def llm_plan(prompt: str) -> list[tuple[str, dict]]:
+    provider = os.getenv("LLM_PROVIDER") or (
+        "gemini" if os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY") else "ollama"
+    )
+    plan = gemini_plan(prompt, tool_schemas()) if provider == "gemini" else ollama_plan(prompt)
+    if not plan or len(plan) > 12:
         raise ValueError("LLM did not return a bounded structured tool plan")
-    plan = [(c["function"]["name"], c["function"]["arguments"]) for c in calls]
     # Natural-language requests cannot authorize an LLM to turn advice into a write.
     for name, _ in plan:
         if name in MUTATIONS:
