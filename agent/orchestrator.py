@@ -12,7 +12,7 @@ import requests
 from pydantic import ValidationError
 
 from agent import schemas as s
-from agent.planners import PlannerUnavailable, gemini_plan
+from agent.planners import SYSTEM, PlannerUnavailable, gemini_plan
 from agent.tools import airflow_tools as af
 from agent.tools import dvc_tools as dvc
 from agent.tools import kubernetes_tools as kube
@@ -167,16 +167,14 @@ def ollama_plan(prompt: str) -> list[tuple[str, dict]]:
     response = requests.post(
         os.getenv("OLLAMA_URL", "http://localhost:11434") + "/api/chat",
         json={
-            "model": os.getenv("OLLAMA_MODEL", "qwen3:4b"),
+            "model": os.getenv("OLLAMA_MODEL", "qwen3:1.7b"),
             "stream": False,
+            "think": False,
+            "options": {"temperature": 0, "num_ctx": 8192, "num_predict": 2048},
             "messages": [
                 {
                     "role": "system",
-                    "content": "Select tools to answer the user. You are a "
-                    "planner only. Never invent tool results. For best model + dataset + deployment "
-                    "+ retraining requests use mlflow_best, dvc_current, kube_diagnose, airflow_runs. "
-                    "Never trigger training from a recommendation request. Never grant confirmation. "
-                    "Only select mutations if the user explicitly asks to execute that operation.",
+                    "content": SYSTEM,
                 },
                 {"role": "user", "content": prompt},
             ],

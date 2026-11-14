@@ -174,7 +174,7 @@ def capture(mode):
         response = ask(prompt, mode)
         conversations.append({"scenario": name, "user": prompt, "response": response.model_dump()})
         save(
-            "conversations.json",
+            "conversations-llm.json" if mode == "llm" else "conversations.json",
             {
                 "captured_at": datetime.now(timezone.utc).isoformat(),
                 "mode": mode,

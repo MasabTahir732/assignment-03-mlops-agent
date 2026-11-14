@@ -41,6 +41,15 @@ jobs:
           sleep 3
       - name: Export five real conversations and system evidence
         run: python -m scripts.live_demo capture
+      - name: Start local LLM without a cloud key
+        run: |
+          docker compose --profile llm up -d ollama
+          docker compose exec -T ollama ollama pull qwen3:1.7b
+      - name: Verify five natural-language requests using actual LLM tool calls
+        env:
+          LLM_PROVIDER: ollama
+          OLLAMA_MODEL: qwen3:1.7b
+        run: python -m scripts.live_demo capture --mode llm
       - name: Upload actual evidence even if a live check fails
         if: always()
         uses: actions/upload-artifact@v4
