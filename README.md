@@ -56,6 +56,8 @@ Open <http://localhost:5000>. Each run records F1, accuracy, parameters, DVC has
 Git commit, dataset tag, candidate artifact and gate status. The quality gate is
 macro F1 >= 0.90. Passing candidates enter the registry; a failing candidate is
 logged for diagnosis and cannot replace `models/model.joblib`.
+The shallow `--max-depth 1` candidate deliberately illustrates a failed gate on
+this split (F1 about 0.866); continue to the stronger candidates (F1 about 0.949).
 
 Commit tracked source changes **before training**. Training refuses dirty tracked
 files or CSV contents that disagree with their DVC pointer. Generated models,

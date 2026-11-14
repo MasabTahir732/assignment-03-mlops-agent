@@ -101,7 +101,8 @@ def evaluate(
     mlflow.set_experiment("iris-demo")
     pointer = yaml.safe_load((ROOT / "data/iris.csv.dvc").read_text())["outs"][0]
     commit = command(["git", "rev-parse", "HEAD"])
-    tags = command(["git", "tag", "--points-at", "HEAD"]).splitlines()
+    data_commit = command(["git", "log", "-1", "--format=%H", "--", "data/iris.csv.dvc"])
+    data_version = command(["git", "describe", "--tags", "--always", data_commit])
     with mlflow.start_run() as run:
         mlflow.log_params(
             {
@@ -115,8 +116,9 @@ def evaluate(
         mlflow.set_tags(
             {
                 "dataset_hash": pointer["md5"],
-                "dataset_git_commit": commit,
-                "dataset_version": ",".join(tags) or commit[:7],
+                "dataset_git_commit": data_commit,
+                "source_git_commit": commit,
+                "dataset_version": data_version,
                 "dataset_pointer": "data/iris.csv.dvc",
                 "quality_gate": "passed" if passed else "failed",
             }
@@ -125,7 +127,9 @@ def evaluate(
         metadata = {
             "run_id": run.info.run_id,
             "dataset_hash": pointer["md5"],
-            "dataset_git_commit": commit,
+            "dataset_git_commit": data_commit,
+            "source_git_commit": commit,
+            "dataset_version": data_version,
             "metrics": metrics,
             "quality_passed": passed,
             "classes": ["setosa", "versicolor", "virginica"],

@@ -16,10 +16,13 @@ def tracked() -> dict:
 
 def current() -> dict:
     pointer = yaml.safe_load((ROOT / "data/iris.csv.dvc").read_text())
+    data_commit = command(["git", "log", "-1", "--format=%H", "--", "data/iris.csv.dvc"])
     return {
         "git_commit": command(["git", "rev-parse", "HEAD"]),
         "git_dirty": bool(command(["git", "status", "--porcelain"])),
         "dataset": "data/iris.csv",
+        "dataset_git_commit": data_commit,
+        "dataset_version": command(["git", "describe", "--tags", "--always", data_commit]),
         "dvc_hash": pointer["outs"][0]["md5"],
         "pointer": "data/iris.csv.dvc",
         "data_status": status(),
@@ -27,9 +30,18 @@ def current() -> dict:
 
 
 def status() -> dict:
-    return json.loads(command([
-        sys.executable, "-m", "dvc", "status", "data/iris.csv.dvc", "--json",
-    ]))
+    return json.loads(
+        command(
+            [
+                sys.executable,
+                "-m",
+                "dvc",
+                "status",
+                "data/iris.csv.dvc",
+                "--json",
+            ]
+        )
+    )
 
 
 def compare(old: str, new: str = "HEAD") -> dict:
