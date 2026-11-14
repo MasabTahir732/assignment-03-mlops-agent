@@ -1,0 +1,11 @@
+.git
+.venv
+.dvc
+.dvc-remote
+__pycache__
+tests
+screenshots
+reports
+logs
+.env
+*.pdf

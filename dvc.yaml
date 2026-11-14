@@ -1,0 +1,9 @@
+stages:
+  train:
+    cmd: python -m training.train
+    deps:
+      - data/iris.csv
+      - training/train.py
+    outs:
+      - models/model.joblib
+      - models/metadata.json
