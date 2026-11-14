@@ -98,8 +98,17 @@ Dataset reproduction was also checked locally with a separate Git worktree and
 The five entries in [conversations.json](screenshots/live/conversations.json)
 contain exact user requests, responses, request IDs, durations and actual evidence.
 This initial infrastructure verification used the explicitly labeled **rules**
-planner. Ollama is the supported local LLM for the live natural-language demonstration;
-its separately exported LLM conversations are included when that verification completes.
+planner. Ollama is the supported local LLM for the live natural-language demonstration.
+Five additional actual Ollama conversations are exported in
+[conversations-llm.json](screenshots/llm-live/conversations-llm.json), captured at
+17:26 PKT from source `70155b14e7c963fe2edbc68003eeb58fcc49bcb8`.
+[Their workflow](https://github.com/MasabTahir732/assignment-03-mlops-agent/actions/runs/43594346118)
+successfully executed tools in all five conversations, but its final acceptance
+check failed: the combined answer omitted Airflow evidence. This is a documented
+limitation, not a passing end-to-end LLM result. The current planner requires all
+four systems and requests model repair when a plan omits one; unit tests cover
+this guard. Its final live recheck was not awaited at the user's request.
+Ollama uses schema-constrained JSON tool plans; Gemini uses native function calls.
 
 | Scenario | Actual user request | Verified tool behavior |
 | --- | --- | --- |
@@ -148,7 +157,8 @@ consent rejection, provider failures, secret-safe logs, validation, quality gate
 and actual trained-model inference.
 The local automated suite currently contains **31 passing tests**.
 
-Known limitations: this is a single-host classroom system; Iris is too small to
+Known limitations: the final combined Ollama response after the coverage fix has
+not yet been confirmed by a completed live run; this is a single-host classroom system; Iris is too small to
 prove real-world model robustness; a top metric is not a production readiness
 assessment; LLM selection can be imperfect; CPU inference is slower than a cloud
 provider; the local DVC remote must be regenerated/configured after cloning; no

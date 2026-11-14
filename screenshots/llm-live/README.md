@@ -1,0 +1,1 @@
+Actual Ollama evidence from workflow 43594346118, source 70155b14e7c963fe2edbc68003eeb58fcc49bcb8. All five conversations executed real tools; the combined request omitted Airflow and failed the final acceptance check. See TECHNICAL_REPORT.md for the limitation and subsequent coverage guard.
