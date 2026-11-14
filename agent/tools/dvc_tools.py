@@ -64,8 +64,12 @@ def compare(old: str, new: str = "HEAD") -> dict:
 
 def reproduce(revision: str) -> dict:
     commit = command(["git", "rev-parse", "--verify", f"{revision}^{{commit}}"])
+    pointer = yaml.safe_load(command(["git", "show", f"{commit}:data/iris.csv.dvc"]))["outs"][0]
     return {
         "commit": commit,
+        "dataset": "data/iris.csv",
+        "dvc_hash": pointer["md5"],
+        "size_bytes": pointer["size"],
         "instructions": [
             f"git worktree add ../iris-reproduce-{commit[:7]} {shlex.quote(commit)}",
             f"cd ../iris-reproduce-{commit[:7]}",

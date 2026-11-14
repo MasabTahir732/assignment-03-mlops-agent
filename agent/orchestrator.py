@@ -170,6 +170,27 @@ def rule_plan(prompt: str) -> list[tuple[str, dict]]:
 
 
 def ollama_plan(prompt: str) -> list[tuple[str, dict]]:
+    schemas = tool_schemas()
+    choices = [
+        {
+            "type": "object",
+            "properties": {
+                "name": {"type": "string", "enum": [t["function"]["name"]]},
+                "arguments": t["function"]["parameters"],
+            },
+            "required": ["name", "arguments"],
+            "additionalProperties": False,
+        }
+        for t in schemas
+    ]
+    plan_schema = {
+        "type": "object",
+        "properties": {
+            "calls": {"type": "array", "items": {"anyOf": choices}, "minItems": 0, "maxItems": 12}
+        },
+        "required": ["calls"],
+        "additionalProperties": False,
+    }
     response = requests.post(
         os.getenv("OLLAMA_URL", "http://localhost:11434") + "/api/chat",
         json={
@@ -180,17 +201,25 @@ def ollama_plan(prompt: str) -> list[tuple[str, dict]]:
             "messages": [
                 {
                     "role": "system",
-                    "content": SYSTEM,
+                    "content": SYSTEM + '\nReturn JSON {"calls":[{"name":"TOOL_NAME",'
+                    '"arguments":{}}]}. Choose the smallest sufficient tool plan. '
+                    "For a relevant request, include at least one call. "
+                    "Tool registry: " + json.dumps([t["function"] for t in schemas]),
                 },
                 {"role": "user", "content": prompt},
             ],
-            "tools": tool_schemas(),
+            # Constrained JSON makes small CPU models obey the same function schemas.
+            # Tool selection and arguments still come from the actual LLM, not rules.
+            "format": plan_schema,
         },
         timeout=90,
     )
     response.raise_for_status()
-    calls = response.json()["message"].get("tool_calls", [])
-    return [(c["function"]["name"], c["function"]["arguments"]) for c in calls]
+    message = response.json()["message"]
+    if message.get("tool_calls"):
+        return [(c["function"]["name"], c["function"]["arguments"]) for c in message["tool_calls"]]
+    calls = json.loads(message["content"])["calls"]
+    return [(c["name"], c["arguments"]) for c in calls]
 
 
 def llm_plan(prompt: str) -> list[tuple[str, dict]]:

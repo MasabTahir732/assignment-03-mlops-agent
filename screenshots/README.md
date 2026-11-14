@@ -1,5 +1,10 @@
 Store **actual** UI screenshots here after running the demo:
 
+The `live/` directory already contains actual exported evidence from the successful
+four-service demonstration. The assignment permits exported evidence in place of
+UI screenshots. `architecture.png` is a generated architecture diagram, not a
+screenshot of a running service.
+
 - `01-dvc.png`: `dvc diff v1 v2` plus reproduced v1 hash / 120 rows.
 - `02-mlflow.png`: runs, F1 comparison, dataset tags, registered candidate.
 - `03-airflow.png`: five-stage successful DAG and individual task statuses.

@@ -5,11 +5,15 @@ It answers dataset, experiment, pipeline and deployment questions, then combines
 four systems for the fifth integration requirement. The directory structure follows
 the assignment PDF. No paid API key is required.
 
-**Submission report:** [TECHNICAL_REPORT.md](TECHNICAL_REPORT.md) includes the complete
+**Submission report:** [PDF](TECHNICAL_REPORT.pdf), [editable Word](TECHNICAL_REPORT.docx),
+and [Markdown source](TECHNICAL_REPORT.md) include the complete
 architecture, permissions, five tested conversations, actual exported evidence,
 two failure investigations, limitations and improvements. The first
 [real infrastructure workflow](https://github.com/MasabTahir732/assignment-03-mlops-agent/actions/runs/43591743449)
 passed with all four services running. Evidence is committed under `screenshots/live/`.
+
+To regenerate the PDF/Word reports: `pip install -e '.[report]'`, then
+`python -m scripts.export_report`.
 
 **Tiny data:** Iris v1 has 120 rows; v2 has 150 rows. Each CSV is under 5 KB. Both
 versions are generated from scikit-learn's bundled Iris data; no dataset download.
@@ -274,14 +278,14 @@ evidence as the `actual-mlops-evidence` artifact. Its rules-mode conversation ca
 is distinct from the optional Gemini live-language demonstration. Ordinary CI stays
 mocked. Download the artifact and copy the reviewed JSON into `screenshots/live/`.
 
-When ready to submit, create an empty GitHub repository, then:
+The submission repository is already published at
+<https://github.com/MasabTahir732/assignment-03-mlops-agent>. Submit that link.
+For later changes in this checkout:
 
 ```powershell
 git add .
 git commit -m 'Add verified demo evidence and final report'
-git remote add origin https://github.com/YOUR_USERNAME/assignment-03-mlops-agent.git
-git branch -M main
-git push -u origin main
+git push origin main
 git push origin v1 v2
 ```
 

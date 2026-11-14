@@ -232,6 +232,22 @@ def test_llm_repairs_invalid_arguments_before_executing(monkeypatch):
     assert "rejected before execution" in post.call_args.kwargs["json"]["messages"][1]["content"]
 
 
+def test_ollama_constrained_json_plan_executes_selected_tool(monkeypatch):
+    response = Mock()
+    response.json.return_value = {
+        "message": {"content": json.dumps({"calls": [{"name": "dvc_tracked", "arguments": {}}]})}
+    }
+    monkeypatch.setenv("LLM_PROVIDER", "ollama")
+    post = Mock(return_value=response)
+    monkeypatch.setattr(o.requests, "post", post)
+    register(monkeypatch, "dvc_tracked", lambda: {"datasets": ["data/iris.csv.dvc"]})
+    result = o.ask("What datasets are available?", mode="llm")
+    assert result.evidence[0].data["datasets"] == ["data/iris.csv.dvc"]
+    schema = post.call_args.kwargs["json"]["format"]
+    assert schema["properties"]["calls"]["maxItems"] == 12
+    assert "Tool registry" in post.call_args.kwargs["json"]["messages"][0]["content"]
+
+
 def test_diagnosis_uses_pod_states_events_and_logs(monkeypatch):
     monkeypatch.setattr(
         kube,

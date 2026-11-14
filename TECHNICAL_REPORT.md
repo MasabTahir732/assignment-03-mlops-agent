@@ -42,6 +42,17 @@ Their complete validated input schemas are exported with `python -m agent.main
 --list-tools`; [architecture.md](architecture.md#tool-definitions-and-permissions)
 lists every tool and permission.
 
+Callable names and principal inputs:
+
+- DVC: `dvc_tracked()`, `dvc_current()`, `dvc_status()`, `dvc_compare(old, new)`,
+  `dvc_reproduce(revision)`.
+- MLflow: `mlflow_experiments()`, `mlflow_runs(limit)`, `mlflow_details(run_id)`,
+  `mlflow_best(metric, limit, mode)`, `mlflow_compare(run_ids)`, `mlflow_registry()`.
+- Airflow: `airflow_dags()`, `airflow_runs(dag_id)`, `airflow_tasks(dag_run_id, dag_id)`,
+  `airflow_diagnose(dag_run_id, dag_id)`, `airflow_trigger(dag_id, confirmed, inject_failure)`.
+- Kubernetes: `kube_pods()`, `kube_deployments()`, `kube_services()`, `kube_logs(pod, lines)`,
+  `kube_diagnose()`, `kube_restart(namespace, confirmed)`.
+
 | Module | Read tools / functions | Authorized writes |
 | --- | --- | --- |
 | DVC (5) | List tracked datasets, inspect current version/status, compare revisions, explain reproduction | No conversational write tool; operator uses DVC setup/reproduction scripts |
@@ -132,6 +143,7 @@ Tests cover success, tool selection, timeouts, invalid requests, unavailable
 services, no invented results, unauthorized Kubernetes changes, model-granted
 consent rejection, provider failures, secret-safe logs, validation, quality gates
 and actual trained-model inference.
+The local automated suite currently contains **29 passing tests**.
 
 Known limitations: this is a single-host classroom system; Iris is too small to
 prove real-world model robustness; a top metric is not a production readiness
