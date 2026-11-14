@@ -10,7 +10,10 @@ SYSTEM = (
     "dvc_current, kube_diagnose, airflow_runs. For metric comparisons use mlflow_best. "
     "Never trigger training from a recommendation request. Never grant confirmation. "
     "Select mutations only when explicitly requested. Available workflow: iris_training; "
-    "namespace: mlops-demo. Do not guess run IDs or Pod names; inspect lists first."
+    "namespace: mlops-demo. Do not guess run IDs or Pod names; inspect lists first. "
+    "Pass only parameters listed in the selected tool's schema. Omit optional fields when "
+    "not needed. airflow_runs takes only dag_id, whose only value is iris_training; "
+    "do not pass limit, status, run_id or other fields to airflow_runs."
 )
 
 

@@ -199,6 +199,39 @@ def test_ollama_cannot_turn_advice_into_mutation(monkeypatch):
     mutation.assert_not_called()
 
 
+def test_llm_repairs_invalid_arguments_before_executing(monkeypatch):
+    first, second = Mock(), Mock()
+    first.json.return_value = {
+        "message": {
+            "tool_calls": [
+                {
+                    "function": {
+                        "name": "airflow_runs",
+                        "arguments": {"dag_id": "wrong_dag", "limit": 5},
+                    }
+                }
+            ]
+        }
+    }
+    second.json.return_value = {
+        "message": {
+            "tool_calls": [
+                {"function": {"name": "airflow_runs", "arguments": {"dag_id": "iris_training"}}}
+            ]
+        }
+    }
+    monkeypatch.setenv("LLM_PROVIDER", "ollama")
+    post = Mock(side_effect=[first, second])
+    monkeypatch.setattr(o.requests, "post", post)
+    function = Mock(return_value={"dag_runs": []})
+    register(monkeypatch, "airflow_runs", function, s.DagInput)
+    result = o.ask("Check training pipeline status", mode="llm")
+    assert post.call_count == 2
+    function.assert_called_once_with(dag_id="iris_training")
+    assert len(result.evidence) == 1 and result.evidence[0].status == "ok"
+    assert "rejected before execution" in post.call_args.kwargs["json"]["messages"][1]["content"]
+
+
 def test_diagnosis_uses_pod_states_events_and_logs(monkeypatch):
     monkeypatch.setattr(
         kube,

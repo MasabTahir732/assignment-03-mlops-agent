@@ -17,6 +17,7 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = ["pytest==9.0.1", "ruff==0.14.6", "httpx==0.28.1"]
+report = ["reportlab==4.4.5", "python-docx==1.2.0"]
 
 [project.scripts]
 mlops-agent = "agent.main:main"

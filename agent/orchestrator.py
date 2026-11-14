@@ -51,7 +51,7 @@ MUTATIONS = {"airflow_trigger", "kube_restart"}
 
 
 def tool_schemas():
-    return [
+    schemas = [
         {
             "type": "function",
             "function": {
@@ -62,6 +62,12 @@ def tool_schemas():
         }
         for name, (_, schema, desc) in TOOLS.items()
     ]
+    # Single-value enums are understood more consistently by small tool-calling models.
+    for tool in schemas:
+        for field in tool["function"]["parameters"].get("properties", {}).values():
+            if "const" in field:
+                field["enum"] = [field.pop("const")]
+    return schemas
 
 
 def execute(name: str, arguments: dict, request_id: str, confirmed: bool = False):
@@ -191,19 +197,53 @@ def llm_plan(prompt: str) -> list[tuple[str, dict]]:
     provider = os.getenv("LLM_PROVIDER") or (
         "gemini" if os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY") else "ollama"
     )
-    plan = gemini_plan(prompt, tool_schemas()) if provider == "gemini" else ollama_plan(prompt)
-    if not plan or len(plan) > 12:
-        raise ValueError("LLM did not return a bounded structured tool plan")
-    # Natural-language requests cannot authorize an LLM to turn advice into a write.
-    for name, _ in plan:
-        if name in MUTATIONS:
-            explicit = (name == "kube_restart" and "restart" in prompt.lower()) or (
-                name == "airflow_trigger"
-                and any(w in prompt.lower() for w in ("trigger", "start training", "run pipeline"))
-            )
-            if not explicit:
-                raise PermissionError("LLM proposed an unrequested mutation")
-    return plan
+    planning_prompt = prompt
+    for _ in range(3):
+        plan = (
+            gemini_plan(planning_prompt, tool_schemas())
+            if provider == "gemini"
+            else ollama_plan(planning_prompt)
+        )
+        if not plan or len(plan) > 12:
+            raise ValueError("LLM did not return a bounded structured tool plan")
+        invalid = []
+        # Validate the plan before any operation. Repair inputs through the same LLM,
+        # never by inventing results or silently substituting the rules planner.
+        for name, arguments in plan:
+            if name in MUTATIONS:
+                explicit = (name == "kube_restart" and "restart" in prompt.lower()) or (
+                    name == "airflow_trigger"
+                    and any(
+                        w in prompt.lower() for w in ("trigger", "start training", "run pipeline")
+                    )
+                )
+                if not explicit:
+                    raise PermissionError("LLM proposed an unrequested mutation")
+            if name not in TOOLS:
+                invalid.append({"tool": name, "error": "Tool is not in the registry"})
+                continue
+            try:
+                TOOLS[name][1].model_validate(arguments)
+            except ValidationError as exc:
+                invalid.append(
+                    {
+                        "tool": name,
+                        "errors": [
+                            {"field": list(e["loc"]), "message": e["msg"]}
+                            for e in exc.errors(include_input=False)
+                        ],
+                    }
+                )
+        if not invalid:
+            return plan
+        planning_prompt = (
+            prompt
+            + "\nYour previous structured calls were rejected before execution: "
+            + json.dumps(invalid)
+            + ". Return corrected calls using only the provided tool schemas. "
+            "No tools have executed yet. Do not invent any operational results."
+        )
+    raise ValueError("LLM could not produce valid tool arguments after three planning attempts")
 
 
 def summarize(evidence: list[s.ToolResult]):
