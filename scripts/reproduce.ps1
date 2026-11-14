@@ -2,6 +2,7 @@ param([ValidateSet('v1', 'v2')][string]$Revision = 'v1')
 $ErrorActionPreference = 'Stop'
 Set-Location (Split-Path $PSScriptRoot -Parent)
 $root = (Get-Location).Path
+$env:DVC_SITE_CACHE_DIR = Join-Path $root '.dvc/tmp/site-cache'
 $python = Join-Path $root '.venv/Scripts/python.exe'
 $destination = Join-Path $root "reports/reproduce-$Revision"
 if (Test-Path $destination) { throw 'Reproduction destination exists; choose a fresh clone for another run.' }

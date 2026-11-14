@@ -4,6 +4,7 @@ import argparse
 import hashlib
 import json
 import os
+import sys
 from pathlib import Path
 
 import joblib
@@ -164,6 +165,9 @@ def quality_gate(work_dir: str):
 
 
 def main():
+    # MLflow prints Unicode run links; Windows redirected streams default to cp1252.
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8")
     load_dotenv(ROOT / ".env")
     parser = argparse.ArgumentParser()
     parser.add_argument("--generate", choices=["v1", "v2"])

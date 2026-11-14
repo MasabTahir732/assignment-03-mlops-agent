@@ -1,6 +1,7 @@
 param([switch]$SkipInstall)
 $ErrorActionPreference = 'Stop'
 Set-Location (Split-Path $PSScriptRoot -Parent)
+$env:DVC_SITE_CACHE_DIR = Join-Path (Get-Location) '.dvc/tmp/site-cache'
 function Check-Exit { if ($LASTEXITCODE -ne 0) { throw "Command failed ($LASTEXITCODE)" } }
 if (!(Test-Path '.venv/Scripts/python.exe')) { python -m venv .venv; Check-Exit }
 $python = Join-Path (Get-Location) '.venv/Scripts/python.exe'

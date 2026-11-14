@@ -9,6 +9,9 @@ TIMEOUT = 30
 
 
 def command(args: list[str], timeout: int = TIMEOUT) -> str:
+    env = os.environ.copy()
+    if args[1:3] == ["-m", "dvc"]:
+        env.setdefault("DVC_SITE_CACHE_DIR", str(ROOT / ".dvc/tmp/site-cache"))
     result = subprocess.run(
         args,
         cwd=ROOT,
@@ -18,6 +21,7 @@ def command(args: list[str], timeout: int = TIMEOUT) -> str:
         check=False,
         encoding="utf-8",
         errors="replace",
+        env=env,
     )
     if result.returncode:
         # Raw stderr can contain remote URLs and credentials. Keep it out of logs/responses.
