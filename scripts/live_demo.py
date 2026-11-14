@@ -5,6 +5,7 @@ import hashlib
 import json
 import os
 import secrets
+import shutil
 import subprocess
 import sys
 import time
@@ -23,6 +24,8 @@ EVIDENCE = ROOT / "reports/live-evidence"
 
 
 def run(args):
+    if args[0] == "docker" and os.name == "nt" and not shutil.which("docker"):
+        args = ["wsl", "--cd", str(ROOT), "-u", "root", "-e", *args]
     result = subprocess.run(args, cwd=ROOT, capture_output=True, text=True, timeout=600)
     if result.returncode:
         raise RuntimeError(f"Command failed: {args[:3]} (exit {result.returncode})")

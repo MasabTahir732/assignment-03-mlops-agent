@@ -227,6 +227,13 @@ def llm_plan(prompt: str) -> list[tuple[str, dict]]:
         "gemini" if os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY") else "ollama"
     )
     planning_prompt = prompt
+    text = prompt.lower()
+    required = (
+        {"mlflow_best", "dvc_current", "kube_diagnose", "airflow_runs"}
+        if ("best" in text or "recent model" in text)
+        and any(word in text for word in ("deploy", "retrain", "kubernetes", "running"))
+        else set()
+    )
     for _ in range(3):
         plan = (
             gemini_plan(planning_prompt, tool_schemas())
@@ -236,6 +243,14 @@ def llm_plan(prompt: str) -> list[tuple[str, dict]]:
         if not plan or len(plan) > 12:
             raise ValueError("LLM did not return a bounded structured tool plan")
         invalid = []
+        missing = required - {name for name, _ in plan}
+        if missing:
+            invalid.append(
+                {
+                    "missing_required_evidence_tools": sorted(missing),
+                    "required_complete_plan": sorted(required),
+                }
+            )
         # Validate the plan before any operation. Repair inputs through the same LLM,
         # never by inventing results or silently substituting the rules planner.
         for name, arguments in plan:
@@ -269,7 +284,10 @@ def llm_plan(prompt: str) -> list[tuple[str, dict]]:
             prompt
             + "\nYour previous structured calls were rejected before execution: "
             + json.dumps(invalid)
-            + ". Return corrected calls using only the provided tool schemas. "
+            + ". Previous plan: "
+            + json.dumps(plan)
+            + ". Return a corrected COMPLETE plan, including all required tools, "
+            "using only the provided tool schemas. "
             "No tools have executed yet. Do not invent any operational results."
         )
     raise ValueError("LLM could not produce valid tool arguments after three planning attempts")

@@ -248,6 +248,34 @@ def test_ollama_constrained_json_plan_executes_selected_tool(monkeypatch):
     assert "Tool registry" in post.call_args.kwargs["json"]["messages"][0]["content"]
 
 
+def test_llm_repairs_missing_mandatory_system_before_execution(monkeypatch):
+    names = ["mlflow_best", "dvc_current", "kube_diagnose", "airflow_runs"]
+    responses = []
+    for chosen in (names[:3], names):
+        response = Mock()
+        response.json.return_value = {
+            "message": {
+                "content": json.dumps(
+                    {"calls": [{"name": name, "arguments": {}} for name in chosen]}
+                )
+            }
+        }
+        responses.append(response)
+    monkeypatch.setenv("LLM_PROVIDER", "ollama")
+    post = Mock(side_effect=responses)
+    monkeypatch.setattr(o.requests, "post", post)
+    register(monkeypatch, "mlflow_best", lambda **kw: {"candidate": None}, s.BestInput)
+    register(monkeypatch, "dvc_current", lambda: {"dvc_hash": "abc"})
+    register(monkeypatch, "kube_diagnose", lambda: {"healthy": True, "deployments": []})
+    register(monkeypatch, "airflow_runs", lambda **kw: {"dag_runs": []}, s.DagInput)
+    response = o.ask(
+        "Find the best recent model, dataset, deployment and retraining need", mode="llm"
+    )
+    assert post.call_count == 2
+    assert {e.tool for e in response.evidence} == set(names)
+    assert all(e.status == "ok" for e in response.evidence)
+
+
 def test_diagnosis_uses_pod_states_events_and_logs(monkeypatch):
     monkeypatch.setattr(
         kube,

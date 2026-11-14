@@ -29,6 +29,9 @@ The training split and random seed are fixed. Training records dataset hash,
 dataset Git commit/tag and training source commit independently. MLflow retains
 metrics, parameters, artifacts and gate status. Only passing candidates are
 registered and promoted. Image rebuilding/deployment remains an explicit operation.
+Compose uses PostgreSQL for Airflow metadata and SQLite plus a persistent artifact
+volume for MLflow. The CLI communicates with loopback services on ports 5000,
+8080 and 11434; the inference API listens on port 8000 behind a ClusterIP Service.
 
 Airflow exposes five separate tasks with dependencies, logging and one retry.
 Kubernetes provides two desired replicas, readiness/liveness probes, CPU/memory
@@ -143,7 +146,7 @@ Tests cover success, tool selection, timeouts, invalid requests, unavailable
 services, no invented results, unauthorized Kubernetes changes, model-granted
 consent rejection, provider failures, secret-safe logs, validation, quality gates
 and actual trained-model inference.
-The local automated suite currently contains **29 passing tests**.
+The local automated suite currently contains **31 passing tests**.
 
 Known limitations: this is a single-host classroom system; Iris is too small to
 prove real-world model robustness; a top metric is not a production readiness

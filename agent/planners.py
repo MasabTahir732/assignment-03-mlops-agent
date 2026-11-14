@@ -13,7 +13,12 @@ SYSTEM = (
     "namespace: mlops-demo. Do not guess run IDs or Pod names; inspect lists first. "
     "Pass only parameters listed in the selected tool's schema. Omit optional fields when "
     "not needed. airflow_runs takes only dag_id, whose only value is iris_training; "
-    "do not pass limit, status, run_id or other fields to airflow_runs."
+    "do not pass limit, status, run_id or other fields to airflow_runs. "
+    "For application unavailability or Kubernetes health use kube_diagnose, which collects "
+    "Pods, Deployments, Services, events and relevant logs. For workflow status use airflow_runs. "
+    "For a current dataset version use dvc_current. Use F1 for model selection unless the user "
+    "specifies another metric. A combined best-model/dataset/deployment/retraining question "
+    "MUST include all four calls: mlflow_best, dvc_current, kube_diagnose, airflow_runs."
 )
 
 
